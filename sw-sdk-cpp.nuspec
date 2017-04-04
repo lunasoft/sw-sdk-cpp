@@ -6,8 +6,8 @@
     <title>´Librería de CPP para CFDI 3.3</title>
     <authors>SW SmarterWeb</authors>
     <owners>Equipo SmarterWeb</owners>
-    <licenseUrl></licenseUrl>
-    <projectUrl></projectUrl>
+    <licenseUrl>sw smarterweb</licenseUrl>
+    <projectUrl>https://github.com/lunasoft/sw-sdk-cpp</projectUrl>
     <iconUrl>http://sufacturacion.mx/cdn/sw_logo.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Descripción del paquete</description>
