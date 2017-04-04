@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SW-SDK-CPP</id>
+    <version>0.0.1.0</version>
+    <title>´Librería de CPP para CFDI 3.3</title>
+    <authors>SW SmarterWeb</authors>
+    <owners>Equipo SmarterWeb</owners>
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl>http://sufacturacion.mx/cdn/sw_logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Descripción del paquete</description>
+    <releaseNotes>Autenticación y timbrado</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>CFDI, CFDI33,sample, native</tags>
+  </metadata>
+</package>
