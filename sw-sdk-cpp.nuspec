@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SW-SDK-CPP</id>
-    <version>0.0.1.0</version>
+    <version>0.0.0.1</version>
     <title>´Librería de CPP para CFDI 3.3</title>
     <authors>SW SmarterWeb</authors>
     <owners>Equipo SmarterWeb</owners>
