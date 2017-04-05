@@ -13,45 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Services">
-      <UniqueIdentifier>{6a92b9c2-a93b-400e-b976-4d022f36f78a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Services\Authentication">
-      <UniqueIdentifier>{98b43fbe-6338-4cf3-8a61-b606267e8450}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Authentication">
-      <UniqueIdentifier>{b57f6a09-6538-412f-9285-3170d79a0010}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Stamp">
-      <UniqueIdentifier>{e064f516-71e6-4575-afa2-d049bd0a806b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AuthenticationServices.h">
-      <Filter>Services\Authentication</Filter>
-    </ClInclude>
-    <ClInclude Include="Services.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StampServices.h">
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sw-sdk-cpp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Services.cpp">
+    <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AuthenticationServices.cpp">
-      <Filter>Source Files\Authentication</Filter>
+    <ClCompile Include="sw-sdk-cpp.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StampServices.cpp">
-      <Filter>Source Files\Stamp</Filter>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="sw-sdk-cpp.def">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

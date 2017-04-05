@@ -1,0 +1,6 @@
+LIBRARY sw-sdk-cpp
+DESCRIPTION 'A C++ dll that can be called from VB'
+
+EXPORTS
+   Authentication
+   StampV1
