@@ -2,8 +2,8 @@
 <package >
   <metadata>
     <id>SW-SDK-CPP</id>
-    <version>0.0.0.1</version>
-    <title>´Librería de CPP para CFDI 3.3</title>
+    <version>0.0.0.2</version>
+    <title>SW-SDK-CPP</title>
     <authors>SW SmarterWeb</authors>
     <owners>Equipo SmarterWeb</owners>
     <licenseUrl>https://sw.com.mx/</licenseUrl>
@@ -14,5 +14,15 @@
     <releaseNotes>Autenticación y timbrado</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>CFDI, CFDI33,sample, native</tags>
+    <dependencies>
+            <dependency id="cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn
+" version="2.9.1" />
+        </dependencies>
   </metadata>
+
+     <files>
+        <file src="Release\sw-sdk-cpp.lib" target="lib" />
+        <file src="sw-sdk-cpp\Release\sw-sdk-cpp.pdb" target="pdh" />
+        <file src="sw-sdk-cpp\*.h" target="h" />
+    </files>
 </package>
