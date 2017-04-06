@@ -38,6 +38,13 @@ namespace swsdkcppUT
 			char* status = SplitJson(29, result);
 			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
 		}
+		TEST_METHOD(ValidateIsXML)
+		{
+			_resultExpect = "XML mal Formado";
+			char* xmlNew = GetXml("no es valido");
+			string result = StampByToken(_url, _token, xmlNew);
+			Assert::IsTrue(result == _resultExpect);
+		}
 		char* FindMyToken() {
 			string result = Authentication(_url, _user, _password);
 			return SplitJson(5, result);
