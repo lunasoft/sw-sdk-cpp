@@ -1,7 +1,7 @@
 ./Debug/
 **/Debug/
-./Realise/
-**/Realise/
+./Release/
+**/Release/
 **/packages/
 ./UseDLL/
 ./packages/
