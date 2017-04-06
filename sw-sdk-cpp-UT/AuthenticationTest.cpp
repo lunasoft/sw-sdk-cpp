@@ -7,7 +7,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace swsdkcppUT
 {		
-	TEST_CLASS(UnitTest1)
+	TEST_CLASS(AuthenticationTest)
 	{
 	public:
 		

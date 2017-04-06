@@ -14,4 +14,10 @@
 using namespace std;
 SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password);
 
-SWSDKCPP_API char *StampV1(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampByToken(char *_url, char *_token, char *_xml);
+
+SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml);
+
+char *StampRequest(char *_url, char *_token, char *_xml);
+
+char *SplitJson(int find, string str);
