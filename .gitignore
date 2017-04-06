@@ -1,5 +1,7 @@
 ./Debug/
 **/Debug/
+./Realise/
+**/Realise/
 **/packages/
 ./UseDLL/
 ./packages/
