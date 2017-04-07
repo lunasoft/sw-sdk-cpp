@@ -5,3 +5,6 @@ EXPORTS
    Authentication
    StampByToken
    Stamp
+   dummy
+   SplitJson
+   StampRequest
