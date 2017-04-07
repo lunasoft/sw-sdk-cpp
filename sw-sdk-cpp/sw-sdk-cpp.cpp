@@ -95,10 +95,7 @@ char *StampRequest(char *_url, char *_token, char *_xml) {
 
 		pplx::task<string> pro = client.request(request).then([](http_response response)
 		{
-			if (response.status_code() == status_codes::OK)
-			{
-				return response.extract_utf8string();
-			}
+			return response.extract_utf8string();
 		});
 		pro.wait();
 		string rr = pro.get();
