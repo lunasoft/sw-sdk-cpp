@@ -10,12 +10,12 @@ using namespace Concurrency::streams;
 
 SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password)
 {
-	
+
 	utility::string_t result;
 	utility::string_t user = utility::conversions::to_string_t(_user);
 	utility::string_t password = utility::conversions::to_string_t(_password);
 	string path = "/security/authenticate";
-	
+
 	string s_url = _url;
 	s_url = s_url + path;
 	utility::string_t base;
@@ -38,7 +38,45 @@ SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password)
 	memcpy(last, rr.c_str(), rr.size());
 	return last;
 }
+SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR token)
+{
+	try
+	{
+		strcpy_s(token, 2000, Authentication(url, user, pass));
+	}
+	catch (const std::exception& exc)
+	{
+		token = "Error al obtener el Token: ";
+	}
+	return 0;
 
+}
+SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml)
+{
+	try
+	{
+		strcpy_s(xml, 2000, StampByToken(url, token, xml));
+	}
+	catch (const std::exception& exc)
+	{
+		xml = "Error al obtener el Token: ";
+	}
+	return 0;
+
+}
+SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml)
+{
+	try
+	{
+		strcpy_s(xml, 2000, Stamp(url, user, pass, xml));
+	}
+	catch (const std::exception& exc)
+	{
+		xml = "Error al obtener el Token: ";
+	}
+	return 0;
+
+}
 SWSDKCPP_API char *StampByToken(char * _url, char * _token, char *_xml)
 {
 	return StampRequest(_url, _token, _xml);
@@ -47,7 +85,7 @@ SWSDKCPP_API char *StampByToken(char * _url, char * _token, char *_xml)
 SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml)
 {
 	string result = Authentication(_url, _user, _password);
-	char* _token = SplitJson(5, result); 
+	char* _token = SplitJson(5, result);
 	return StampRequest(_url, _token, _xml);
 }
 
