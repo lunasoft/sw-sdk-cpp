@@ -1,5 +1,5 @@
 <p align="center">
-    ![SW](http://sw.com.mx/images/logo.png)
+   <img src="http://sw.com.mx/images/logo.png">
 </p>
 
 A continuación encontrara ejemplos de implementacion de diferentes de lenguajes para consumir nuestro SDK de servicios proveido por **SmarterWeb** para Timbrado de **CFDI 3.3**
