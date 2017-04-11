@@ -1,3 +1,8 @@
+<p align="center">
+    ![Delphi](http://szintezis-net.hu/wp-content/uploads/2016/08/delphi.jpg)
+</p>
+
+
 Pasos Previos
 ---------
 
@@ -38,7 +43,7 @@ procedure TForm1.BtnAuthenticationClick(Sender: TObject);
 
 Pantalla del formulario de Authenticacion
 <p align="center">
-    ![Auhtentication](https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultAuthenticacion.PNG)
+    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultAuthenticacion.PNG"><
 </p>
 
 
@@ -73,5 +78,5 @@ procedure TForm1.BtnTimbrarConTokenClick(Sender: TObject);
 
 Pantalla del formulario de Timbrado
 <p align="center">
-    ![Auhtentication](https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultStamp.PNG)
+    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultStamp.PNG">
 </p>
