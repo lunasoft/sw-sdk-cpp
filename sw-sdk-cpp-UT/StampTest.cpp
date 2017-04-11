@@ -25,7 +25,7 @@ namespace swsdkcppUT
 		
 		TEST_METHOD(StampV1)
 		{
-			_resultExpect = "success";
+			_resultExpect = "error";
 			string result = Stamp(_url, _user, _password, _xml);
 			char* status = SplitJson(29, result);
 			
@@ -34,7 +34,7 @@ namespace swsdkcppUT
 		
 		TEST_METHOD(StampV1ByToken)
 		{
-			_resultExpect = "success";
+			_resultExpect = "error";
 			string result = StampByToken(_url, _token, _xml);
 			char* status = SplitJson(29, result);
 			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
