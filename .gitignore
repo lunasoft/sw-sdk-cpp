@@ -1,7 +1,6 @@
 ./Debug/
 **/Debug/
 ./Release/
-**/Release/
 **/packages/
 ./UseDLL/
 ./packages/
@@ -12,3 +11,19 @@ ipch/SW-SDK-CPP-UT-85eef3d9/SW-SDK-CPP-UT-8a0360ab.ipch
 sw-sdk-cpp.VC.VC.opendb
 sw-sdk-cpp.VC.db
 .vs/sw-sdk-cpp/v14/
+sw-sdk-cpp-UT/Release/
+sw-sdk-cpp/Release/sw-sdk-cpp.tlog/sw-sdk-cpp.lastbuildstate
+sw-sdk-cpp/Release/
+Release/nunit_random_seed.tmp
+Release/sw-sdk-cpp-UT.dll
+Release/sw-sdk-cpp-UT.exp
+Release/sw-sdk-cpp-UT.iobj
+Release/sw-sdk-cpp-UT.ipdb
+Release/sw-sdk-cpp-UT.lib
+Release/sw-sdk-cpp-UT.pdb
+Release/cpprest140_2_9.pdb
+Release/sw-sdk-cpp.exp
+Release/sw-sdk-cpp.iobj
+Release/sw-sdk-cpp.ipdb
+Release/sw-sdk-cpp.lib
+Release/sw-sdk-cpp.pdb
