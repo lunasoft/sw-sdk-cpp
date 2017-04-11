@@ -42,37 +42,40 @@ SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, L
 {
 	try
 	{
-		strcpy_s(token, 2000, Authentication(url, user, pass));
+		char * authen = Authentication(url, user, pass);
+		strcpy_s(token, strlen(authen)+1 , authen);
 	}
 	catch (const std::exception& exc)
 	{
-		token = "Error al obtener el Token: ";
+		strcpy_s(token, 100, "Error al timbrar por token");
 	}
 	return 0;
 
 }
-SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml)
+SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd)
 {
 	try
 	{
-		strcpy_s(xml, 2000, StampByToken(url, token, xml));
+		char *tfdStamped = StampByToken(url, token, xml);
+		strcpy_s(tfd, strlen(tfdStamped)+1, tfdStamped);
 	}
 	catch (const std::exception& exc)
 	{
-		xml = "Error al obtener el Token: ";
+		strcpy_s(tfd, 100, "Error al timbrar por token");
 	}
 	return 0;
 
 }
-SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml)
+SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd)
 {
 	try
 	{
-		strcpy_s(xml, 2000, Stamp(url, user, pass, xml));
+		char *tfdStamped = Stamp(url, user, pass, xml);
+		strcpy_s(tfd, strlen(tfdStamped)+1, tfdStamped);
 	}
 	catch (const std::exception& exc)
 	{
-		xml = "Error al obtener el Token: ";
+		strcpy_s(tfd, 100, "Error al timbrar por token");
 	}
 	return 0;
 
