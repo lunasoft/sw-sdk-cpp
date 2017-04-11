@@ -1,19 +1,63 @@
 <p align="center">
     <img src="http://szintezis-net.hu/wp-content/uploads/2016/08/delphi.jpg">
 </p>
+<p align="center">
+  <img src="http://sw.com.mx/images/logo.png">
+</p>
+
+
+Para utilizar los servicios de SW con Delphi se debe tener primeramente el fichero DLL correspondiente a **sw-sdk-cpp.dll** y su dependencia **cpprest140d_2_9.dll**.
+
+Dependencias
+------------
+* [SW-SDK-CPP](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Release)
+* [CPPREST SDK](https://github.com/Microsoft/cpprestsdk)
 
 
 Pasos Previos
 ---------
 
-* Para utilizar los servicios de SW con Delphi se debe tener primeramente el fichero DLL correspondiente a **sw-sdk-cpp.dll** y su dependencia **cpprest140d_2_9.dll**
 
-* Este se puede encontrar en el repositorio de github correspondiente al proyecto **sw-sdk-cpp**  https://github.com/lunasoft/sw-sdk-cpp en la carpeta **Build**
+* Ambos archivos se pueden encontrar en el repositorio de github correspondiente al proyecto **sw-sdk-cpp**  https://github.com/lunasoft/sw-sdk-cpp en la carpeta **Release** (https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Release).
 
-* Otra alternativa seria clonar el proyecto y compilarse para generar el fichero DLL
+* Otra alternativa seria clonar el proyecto y compilarlo para generar ambas DLL.
 
-Implementaci&oacute;n
+Interfaz
 ---------
+El proyecto de ejemplo cuenta con un formulario principal el cual tiene dos pestañas la primera prueba el servicio de **Autenticar** y la segunda pestaña prueba el servicio de **Timbrado**
+
+#### Pesta&ntilde;a de Autenticacion #####
+
+<p align="center">
+    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultAuthenticacion.PNG">
+</p>
+
+* El primer TEdit recibe la **Url** a donde apuntara el servicio la cual en nuestro ambiente de prueba seria 'http://services.test.sw.com.mx/security/authenticate'
+* El segundo TEdit recibe el **Usuario** que se utilizara para autenticarse el cual en nuestro ambiente de pruebas seria 'demo'
+* El tercer TEdit recibe la **Contrase&ntilde;a** que necesita para poder obtener el token el cual seria '123456789'
+* El Memo1 arroja el resultado del servicio de autenticacion
+
+#### Pesta&ntilde;a de Timbrado #####
+
+<p align="center">
+    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultStamp.PNG">
+</p>
+
+* Aquí tenemos dos formas para poder consumir el servicio utilizando solamente un token o facilitando las credenciales necesarias (url, usuario y contrase&ntilde;a) **ambos metodos necesitan de un XML ya selllado**.
+
+
+* El primer TEdit recibe la **Url** a donde apuntara el servicio la cual en nuestro ambiente de prueba seria 'http://services.test.sw.com.mx/security/authenticate'
+* El segundo TEdit recibe el **Usuario** que se utilizara para autenticarse el cual en nuestro ambiente de pruebas seria 'demo'
+* El tercer TEdit recibe la **Contrase&ntilde;a** que necesita para poder obtener el token el cual seria '123456789'
+* El cuarto TEdit recibe un **Token** 
+* En el TButton Buscar se busca el archivo **XML** el cual se desea utilizar para timbrar 
+* El Memo1 se utiliza para imprimir el contenido del archivo XML
+* El Memo2 arroja el resultado del servicio de timbrado
+
+
+Codigo del Ejemplo de la Pestaña de Autenticar
+---------
+Nuestro Bot&oacute;n Obtener Token tiene lo siguiente 
 
 **Obtener Token**
 ```delphi
@@ -27,27 +71,35 @@ Function Authentication(url, user, password : PAnsiChar): PAnsiChar; stdcall; ex
  
 procedure TForm1.BtnAuthenticationClick(Sender: TObject);
   var
-    result : string;
-    base_url : PAnsiChar;
-    user: PAnsiChar;
-    password : PAnsiChar;
-     
+      result : string;
+      _url : PAnsiChar;
+      _user : PAnsiChar;
+      _password : PAnsiChar;
   begin
-    base_url = PAnsiChar(AnsiString('http://services.test.sw.com.mx/security/authenticate')); //Url de nuestro servicio
-    user = PAnsiChar(AnsiString('demo')); //Usuario de pruebas
-    password = PAnsiChar(AnsiString('123456789')); //Contraseña de pruebas
-    result := Authentication(base_url, user, password); //Enviamos nuestros parametros y esperamos la respuesta
-    ShowMessage(result);
+      with TbControl do
+        _url:= PAnsiChar(AnsiString(TxtUrl.Text));
+        _user:= PAnsiChar(AnsiString(TxtUser.Text));
+        _password := PAnsiChar(AnsiString(TxtPassword.Text));
+      if (_url <> '') And (_user <> '' ) And (_password <> '')
+        then
+          begin
+            result := Authentication(_url, _user , _password);
+            MemoResult.Lines.Text := result;
+          end
+      else
+        ShowMessage('Los campos Url, Usuario y Contraseña se necesitan para obtener el token');
   end;
 ```
 
-Pantalla del formulario de Authenticacion
-<p align="center">
-    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultAuthenticacion.PNG">
-</p>
+El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **Token**
 
+```json
+{"data":{"token":"T2lYQ0t4L0RHVkR4dHZ5Nkk1VHNEakZ3Y0J4Nk9GODZuRyt4cE1wVm5tbXB3..."},"status":"success"}
+```
 
-#### Timbrar CFDI V1 #####
+Codigo del Ejemplo de la Pestaña de TimbrarV1
+---------
+
 **Stamp** Recibe el contenido de un **XML** ya emitido (sellado) en formato **String** si la factura y el token son correctos devuelve el complemento timbre en un string (**TFD**), en caso contrario lanza una excepción.
 
 **Timbrar XML en formato string utilizando usuario y contraseña**
@@ -61,37 +113,82 @@ Pantalla del formulario de Authenticacion
 
 Function Stamp(url, user, password : PAnsiChar): PAnsiChar; stdcall; external 'sw-sdk-cpp.dll' name 'Stamp';
  
-procedure TForm1.BtnTimbrarConTokenClick(Sender: TObject);
+procedure TForm1.BtnStampOutTokenClick(Sender: TObject);
   var
-    result : string;
-    base_url : PAnsiChar;
-    token: PAnsiChar;
-    xmlString : string;
-    xml : PAnsiChar;
-    myXMLFile : TextFile;
-    path : string;
-    strTemp : string;
+    result : PAnsiChar;
+    _url : PAnsiChar;
+    _user : PAnsiChar;
+    _password : PAnsiChar;
+    _token : PAnsiChar;
+    _Xml : PAnsiChar;
   begin
-    base_url := PAnsiChar(AnsiString('http://services.test.sw.com.mx')); //Url de nuestro servicio
-    token := PAnsiChar(AnsiString('T2lYQ0t4L0RHVkR4dHZ5Nkk1VH...')); //Token
+    with TbControl do
+      _url := PAnsiChar(AnsiString(TxtUrlStamp.Text));
+      _user := PAnsiChar(AnsiString(TxtUserStamp.Text));
+      _password := PAnsiChar(AnsiString(TxtPassword.Text));
+      _Xml := PAnsiChar(AnsiString(MemoXML.Text));
+    if (_url <> '') And (_user <> '' ) And (_password <> '') And (_Xml <> '')
+      then
+        begin
+          result := Stamp(_url,_user, _password, _Xml);
 
-    path :=  PAnsiChar(AnsiString('miXml.xml'));
-    AssignFile(myXMLFile, path);
-    Reset(myXMLFile);
-    while not Eof(myXMLFile) do
-       begin
-         ReadLn(myXMLFile, strTemp);
-         xmlString := Concat(xmlString, strTemp);
-       end;
-    CloseFile(myXMLFile);
-
-    xml := PAnsiChar(AnsiString(xmlString));
-    result := Stamp(base_url, token, xml); //Enviamos nuestros parametros y esperamos la respuesta
-    ShowMessage(result);
+          MemoResultStamp.Lines.Text := result;
+        end
+    else
+      ShowMessage('Los campos Url, Usuario, Contraseña y la Ruta del XML deben estar llenos antes de timbrar');
   end;
 ```
 
-Pantalla del formulario de Timbrado
-<p align="center">
-    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultStamp.PNG">
-</p>
+El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **TFD** 
+
+```json
+{"data":{"tfd":"<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd..."},"status":"success"}
+```
+
+Es posible que si usted utiliza un xml con fecha anterior a 3 dias a la actual obtenga el siguiente mensaje lo cual tambien indica que usted pudo consumir el servicio solo que su xml ya vencio
+
+```json
+{"message":"T401. El rango de la fecha de generacion no debe de ser mayor a 72 horas para la emision del timbre...","status":"error"}
+```
+
+**Timbrar XML en formato string utilizando token**
+
+```delphi
+
+Function StampByToken(url, token, xml : PAnsiChar): PAnsiChar; stdcall; external 'sw-sdk-cpp.dll' name 'StampByToken';
+ 
+procedure TForm1.BtnStampTokenClick(Sender: TObject);
+  var
+    result : PAnsiChar;
+    _url : PAnsiChar;
+    _token : PAnsiChar;
+    _Xml : PAnsiChar;
+  begin
+    with TbControl do
+      _url := PAnsiChar(AnsiString(TxtUrlStamp.Text));
+      _token := PAnsiChar(AnsiString(TxtToken.Text));
+      _Xml := PAnsiChar(AnsiString(MemoXML.Text));
+
+    if (_url <> '') And (_token <> '' ) And (_Xml <> '')
+      then
+        begin
+          result := StampByToken(_url,_token, _Xml);
+
+          MemoResultStamp.Lines.Text := result;
+        end
+    else
+        ShowMessage('Los campos Url, Token y la Ruta del XML deben estar llenos antes de timbrar');
+  end;
+```
+
+El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **TFD**
+
+```json
+{"data":{"tfd":"<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd..."},"status":"success"}
+```
+
+Es posible que si usted utiliza un xml con fecha anterior a 3 dias a la actual obtenga el siguiente mensaje lo cual tambien indica que usted pudo consumir el servicio solo que su xml ya vencio
+
+```json
+{"message":"T401. El rango de la fecha de generacion no debe de ser mayor a 72 horas para la emision del timbre...","status":"error"}
+```

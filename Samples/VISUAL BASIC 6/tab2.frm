@@ -20,10 +20,11 @@ Begin VB.Form Form1
       _ExtentX        =   17383
       _ExtentY        =   16113
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   520
       TabCaption(0)   =   "Autenticación"
       TabPicture(0)   =   "tab2.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "lblUrl"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label1"
@@ -45,22 +46,37 @@ Begin VB.Form Form1
       Tab(0).ControlCount=   9
       TabCaption(1)   =   "Timbrado"
       TabPicture(1)   =   "tab2.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "btnCleanStampResult"
-      Tab(1).Control(1)=   "btnStampUser"
-      Tab(1).Control(2)=   "txtInvoiceStamped"
-      Tab(1).Control(3)=   "txtXMLInvoice"
-      Tab(1).Control(4)=   "CommonDialog1"
-      Tab(1).Control(5)=   "btnStamp"
-      Tab(1).Control(6)=   "btnSelectXml"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Label3"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "Label4"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "Label5"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "Label6"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "txtUrlStamp"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "txtUserStamp"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "txtPasswordStamp"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "txtTolkenStamp"
-      Tab(1).Control(8)=   "txtPasswordStamp"
-      Tab(1).Control(9)=   "txtUserStamp"
-      Tab(1).Control(10)=   "txtUrlStamp"
-      Tab(1).Control(11)=   "Label6"
-      Tab(1).Control(12)=   "Label5"
-      Tab(1).Control(13)=   "Label4"
-      Tab(1).Control(14)=   "Label3"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "btnSelectXml"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "btnStamp"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "CommonDialog1"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "txtXMLInvoice"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).Control(12)=   "txtInvoiceStamped"
+      Tab(1).Control(12).Enabled=   0   'False
+      Tab(1).Control(13)=   "btnStampUser"
+      Tab(1).Control(13).Enabled=   0   'False
+      Tab(1).Control(14)=   "btnCleanStampResult"
+      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "Cancelación"
       TabPicture(2)   =   "tab2.frx":0038
@@ -69,7 +85,7 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnCleanStampResult 
          Caption         =   "Limpiar XML y respuesta"
          Height          =   495
-         Left            =   -67440
+         Left            =   7560
          TabIndex        =   23
          Top             =   5160
          Width           =   1935
@@ -77,7 +93,7 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnCleanAuthentication 
          Caption         =   "Limpiar Respuesta"
          Height          =   495
-         Left            =   8400
+         Left            =   -66600
          TabIndex        =   22
          Top             =   8400
          Width           =   1095
@@ -85,27 +101,27 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnStampUser 
          Caption         =   "Timbrar Sin Token"
          Height          =   495
-         Left            =   -69840
+         Left            =   5160
          TabIndex        =   21
          Top             =   5160
          Width           =   1935
       End
       Begin VB.TextBox txtInvoiceStamped 
          Height          =   1335
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   16
          Top             =   7560
          Width           =   9255
       End
       Begin VB.TextBox txtXMLInvoice 
          Height          =   1335
-         Left            =   -74760
+         Left            =   240
          TabIndex        =   15
          Top             =   6000
          Width           =   9255
       End
       Begin MSComDlg.CommonDialog CommonDialog1 
-         Left            =   -74400
+         Left            =   600
          Top             =   5160
          _ExtentX        =   847
          _ExtentY        =   847
@@ -114,7 +130,7 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnStamp 
          Caption         =   "Timbrar con Token"
          Height          =   495
-         Left            =   -72000
+         Left            =   3000
          TabIndex        =   14
          Top             =   5160
          Width           =   1935
@@ -122,21 +138,21 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnSelectXml 
          Caption         =   "Seleccionar XML"
          Height          =   495
-         Left            =   -74280
+         Left            =   720
          TabIndex        =   13
          Top             =   5160
          Width           =   1935
       End
       Begin VB.TextBox txtTolkenStamp 
          Height          =   615
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   12
          Top             =   4080
          Width           =   2415
       End
       Begin VB.TextBox txtPasswordStamp 
          Height          =   615
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   11
          Text            =   "123456789"
          Top             =   3000
@@ -144,7 +160,7 @@ Begin VB.Form Form1
       End
       Begin VB.TextBox txtUserStamp 
          Height          =   615
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   10
          Text            =   "demo"
          Top             =   1920
@@ -152,7 +168,7 @@ Begin VB.Form Form1
       End
       Begin VB.TextBox txtUrlStamp 
          Height          =   615
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   9
          Text            =   "http://services.test.sw.com.mx"
          Top             =   960
@@ -161,21 +177,21 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnGetToken 
          Caption         =   "Obtener Token"
          Height          =   615
-         Left            =   2160
+         Left            =   -72840
          TabIndex        =   8
          Top             =   4200
          Width           =   2655
       End
       Begin VB.TextBox txtToken 
          Height          =   3375
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   7
          Top             =   5520
          Width           =   9375
       End
       Begin VB.TextBox txtPass 
          Height          =   615
-         Left            =   2160
+         Left            =   -72840
          TabIndex        =   4
          Text            =   "123456789"
          Top             =   3360
@@ -183,7 +199,7 @@ Begin VB.Form Form1
       End
       Begin VB.TextBox txtUser 
          Height          =   615
-         Left            =   2160
+         Left            =   -72840
          TabIndex        =   3
          Text            =   "demo"
          Top             =   2280
@@ -191,7 +207,7 @@ Begin VB.Form Form1
       End
       Begin VB.TextBox txtUrl 
          Height          =   615
-         Left            =   2160
+         Left            =   -72840
          TabIndex        =   1
          Text            =   "http://services.test.sw.com.mx"
          Top             =   1200
@@ -209,7 +225,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   -73800
+         Left            =   1200
          TabIndex        =   20
          Top             =   4080
          Width           =   855
@@ -226,7 +242,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   -74400
+         Left            =   600
          TabIndex        =   19
          Top             =   3120
          Width           =   1575
@@ -243,7 +259,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   -73920
+         Left            =   1080
          TabIndex        =   18
          Top             =   2040
          Width           =   1215
@@ -260,7 +276,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   -73440
+         Left            =   1560
          TabIndex        =   17
          Top             =   1080
          Width           =   855
@@ -277,7 +293,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   840
+         Left            =   -74160
          TabIndex        =   6
          Top             =   3480
          Width           =   1095
@@ -294,7 +310,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   1200
+         Left            =   -73800
          TabIndex        =   5
          Top             =   2400
          Width           =   735
@@ -311,7 +327,7 @@ Begin VB.Form Form1
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   1440
+         Left            =   -73560
          TabIndex        =   2
          Top             =   1320
          Width           =   735
@@ -361,7 +377,7 @@ Dim Url As String
 Dim xml As String
 Dim nLen As String
 Dim tfd As String
-tfd = Space$(10000)
+tfd = Space$(1024)
 Url = Form1.txtUrlStamp.Text
 xml = Form1.txtXMLInvoice.Text
 Token = Form1.txtTolkenStamp.Text
@@ -381,7 +397,7 @@ Dim Url As String
 Dim xml As String
 Dim nLen As String
 Dim tfd As String
-tfd = Space$(10000)
+tfd = Space$(1024)
 Url = Form1.txtUrlStamp.Text
 User = Form1.txtUrlStamp.Text
 Password = Form1.txtPasswordStamp.Text
@@ -433,3 +449,6 @@ Private Sub Text1_Change()
 
 End Sub
 
+Private Sub SSTab2_DblClick()
+
+End Sub
