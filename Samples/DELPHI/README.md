@@ -87,7 +87,9 @@ El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se en
 {"data":{"token":"T2lYQ0t4L0RHVkR4dHZ5Nkk1VHNEakZ3Y0J4Nk9GODZuRyt4cE1wVm5tbXB3..."},"status":"success"}
 ```
 
-#### Timbrar CFDI V1 #####
+Codigo del Ejemplo de la Pestaña de TimbrarV1
+---------
+
 **Stamp** Recibe el contenido de un **XML** ya emitido (sellado) en formato **String** si la factura y el token son correctos devuelve el complemento timbre en un string (**TFD**), en caso contrario lanza una excepción.
 
 **Timbrar XML en formato string utilizando usuario y contraseña**
@@ -101,37 +103,82 @@ El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se en
 
 Function Stamp(url, user, password : PAnsiChar): PAnsiChar; stdcall; external 'sw-sdk-cpp.dll' name 'Stamp';
  
-procedure TForm1.BtnTimbrarConTokenClick(Sender: TObject);
+procedure TForm1.BtnStampOutTokenClick(Sender: TObject);
   var
-    result : string;
-    base_url : PAnsiChar;
-    token: PAnsiChar;
-    xmlString : string;
-    xml : PAnsiChar;
-    myXMLFile : TextFile;
-    path : string;
-    strTemp : string;
+    result : PAnsiChar;
+    _url : PAnsiChar;
+    _user : PAnsiChar;
+    _password : PAnsiChar;
+    _token : PAnsiChar;
+    _Xml : PAnsiChar;
   begin
-    base_url := PAnsiChar(AnsiString('http://services.test.sw.com.mx')); //Url de nuestro servicio
-    token := PAnsiChar(AnsiString('T2lYQ0t4L0RHVkR4dHZ5Nkk1VH...')); //Token
+    with TbControl do
+      _url := PAnsiChar(AnsiString(TxtUrlStamp.Text));
+      _user := PAnsiChar(AnsiString(TxtUserStamp.Text));
+      _password := PAnsiChar(AnsiString(TxtPassword.Text));
+      _Xml := PAnsiChar(AnsiString(MemoXML.Text));
+    if (_url <> '') And (_user <> '' ) And (_password <> '') And (_Xml <> '')
+      then
+        begin
+          result := Stamp(_url,_user, _password, _Xml);
 
-    path :=  PAnsiChar(AnsiString('miXml.xml'));
-    AssignFile(myXMLFile, path);
-    Reset(myXMLFile);
-    while not Eof(myXMLFile) do
-       begin
-         ReadLn(myXMLFile, strTemp);
-         xmlString := Concat(xmlString, strTemp);
-       end;
-    CloseFile(myXMLFile);
-
-    xml := PAnsiChar(AnsiString(xmlString));
-    result := Stamp(base_url, token, xml); //Enviamos nuestros parametros y esperamos la respuesta
-    ShowMessage(result);
+          MemoResultStamp.Lines.Text := result;
+        end
+    else
+      ShowMessage('Los campos Url, Usuario, Contraseña y la Ruta del XML deben estar llenos antes de timbrar');
   end;
 ```
 
-Pantalla del formulario de Timbrado
-<p align="center">
-    <img src="https://github.com/lunasoft/sw-sdk-cpp/blob/feature/SDT3.0.2.4/Samples/DELPHI/Resources/screenshots/ResultStamp.PNG">
-</p>
+El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **TFD** 
+
+```json
+{"data":{"tfd":"<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd..."},"status":"success"}
+```
+
+Es posible que si usted utiliza un xml con fecha anterior a 3 dias a la actual obtenga el siguiente mensaje lo cual tambien indica que usted pudo consumir el servicio solo que su xml ya vencio
+
+```json
+{"message":"T401. El rango de la fecha de generacion no debe de ser mayor a 72 horas para la emision del timbre...","status":"error"}
+```
+
+**Timbrar XML en formato string utilizando token**
+
+```delphi
+
+Function StampByToken(url, token, xml : PAnsiChar): PAnsiChar; stdcall; external 'sw-sdk-cpp.dll' name 'StampByToken';
+ 
+procedure TForm1.BtnStampTokenClick(Sender: TObject);
+  var
+    result : PAnsiChar;
+    _url : PAnsiChar;
+    _token : PAnsiChar;
+    _Xml : PAnsiChar;
+  begin
+    with TbControl do
+      _url := PAnsiChar(AnsiString(TxtUrlStamp.Text));
+      _token := PAnsiChar(AnsiString(TxtToken.Text));
+      _Xml := PAnsiChar(AnsiString(MemoXML.Text));
+
+    if (_url <> '') And (_token <> '' ) And (_Xml <> '')
+      then
+        begin
+          result := StampByToken(_url,_token, _Xml);
+
+          MemoResultStamp.Lines.Text := result;
+        end
+    else
+        ShowMessage('Los campos Url, Token y la Ruta del XML deben estar llenos antes de timbrar');
+  end;
+```
+
+El ejemplo anterior la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **TFD**
+
+```json
+{"data":{"tfd":"<tfd:TimbreFiscalDigital xsi:schemaLocation=\"http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/sitio_internet/cfd/TimbreFiscalDigital/TimbreFiscalDigitalv11.xsd..."},"status":"success"}
+```
+
+Es posible que si usted utiliza un xml con fecha anterior a 3 dias a la actual obtenga el siguiente mensaje lo cual tambien indica que usted pudo consumir el servicio solo que su xml ya vencio
+
+```json
+{"message":"T401. El rango de la fecha de generacion no debe de ser mayor a 72 horas para la emision del timbre...","status":"error"}
+```
