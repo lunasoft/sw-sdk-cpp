@@ -5,10 +5,18 @@
   <img src="http://sw.com.mx/images/logo.png">
 </p>
 
+
+Para utilizar los servicios de SW con Delphi se debe tener primeramente el fichero DLL correspondiente a **sw-sdk-cpp.dll** y su dependencia **cpprest140d_2_9.dll**.
+
+Dependencias
+------------
+* [SW-SDK-CPP](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Release)
+* [CPPREST SDK](https://github.com/Microsoft/cpprestsdk)
+
+
 Pasos Previos
 ---------
 
-* Para utilizar los servicios de SW con Delphi se debe tener primeramente el fichero DLL correspondiente a **sw-sdk-cpp.dll** y su dependencia **cpprest140d_2_9.dll**.
 
 * Ambos archivos se pueden encontrar en el repositorio de github correspondiente al proyecto **sw-sdk-cpp**  https://github.com/lunasoft/sw-sdk-cpp en la carpeta **Release** (https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Release).
 

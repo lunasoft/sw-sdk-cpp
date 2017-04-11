@@ -4,11 +4,6 @@
 
 A continuación encontrara ejemplos de implementacion de diferentes de lenguajes para consumir nuestro SDK de servicios proveido por **SmarterWeb** para Timbrado de **CFDI 3.3**
 
-Dependencias
-------------
-* [SW-SDK-CPP](https://github.com/Microsoft/cpprestsdk)
-* [CPP REST SDK](https://github.com/Microsoft/cpprestsdk)
-
 ----------------
 Ejemplos disponibles para lenguaje
 ---------
