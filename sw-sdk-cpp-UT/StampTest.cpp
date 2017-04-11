@@ -28,6 +28,7 @@ namespace swsdkcppUT
 			_resultExpect = "error";
 			string result = Stamp(_url, _user, _password, _xml);
 			char* status = SplitJson(29, result);
+			
 			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
 		}
 		

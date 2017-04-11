@@ -24,8 +24,9 @@ SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPS
 SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml);
 SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
 
-char *StampRequest(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml);
 
-char *SplitJson(int find, string str);
+SWSDKCPP_API char *SplitJson(int find, string str);
+SWSDKCPP_API string dummy(string d);
 
 bool ValidateXML(char *xml);

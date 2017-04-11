@@ -171,3 +171,8 @@ char* SplitJson(int find, string str) {
 	memcpy(last, token.c_str(), token.size());
 	return last;
 }
+
+string dummy(string d)
+{
+	return d;
+}
