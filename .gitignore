@@ -27,3 +27,5 @@ Release/sw-sdk-cpp.iobj
 Release/sw-sdk-cpp.ipdb
 Release/sw-sdk-cpp.lib
 Release/sw-sdk-cpp.pdb
+Samples/C++/Cliente.VC.VC.opendb
+Samples/C++/Cliente.VC.db
