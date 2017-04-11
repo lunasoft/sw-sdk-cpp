@@ -14,7 +14,7 @@ Compatibilidad
 
 Dependencias
 ------------
-* [SW-SDK-CPP](https://github.com/Microsoft/cpprestsdk)
+* [CPPREST SDK](https://github.com/Microsoft/cpprestsdk)
 
 ----------------
 Instalaci&oacute;n
