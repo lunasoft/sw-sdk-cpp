@@ -1,7 +1,9 @@
 <p align="center">
     <img src="http://szintezis-net.hu/wp-content/uploads/2016/08/delphi.jpg">
 </p>
-
+<p align="center">
+  <img src="http://sw.com.mx/images/logo.png">
+</p>
 
 Pasos Previos
 ---------
