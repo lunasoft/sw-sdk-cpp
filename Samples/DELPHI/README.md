@@ -66,11 +66,26 @@ procedure TForm1.BtnTimbrarConTokenClick(Sender: TObject);
     result : string;
     base_url : PAnsiChar;
     token: PAnsiChar;
+    xmlString : string;
     xml : PAnsiChar;
+    myXMLFile : TextFile;
+    path : string;
+    strTemp : string;
   begin
     base_url := PAnsiChar(AnsiString('http://services.test.sw.com.mx')); //Url de nuestro servicio
     token := PAnsiChar(AnsiString('T2lYQ0t4L0RHVkR4dHZ5Nkk1VH...')); //Token
-    xml := PAnsiChar(AnsiString('myxml.xml'));
+
+    path :=  PAnsiChar(AnsiString('miXml.xml'));
+    AssignFile(myXMLFile, path);
+    Reset(myXMLFile);
+    while not Eof(myXMLFile) do
+       begin
+         ReadLn(myXMLFile, strTemp);
+         xmlString := Concat(xmlString, strTemp);
+       end;
+    CloseFile(myXMLFile);
+
+    xml := PAnsiChar(AnsiString(xmlString));
     result := Stamp(base_url, token, xml); //Enviamos nuestros parametros y esperamos la respuesta
     ShowMessage(result);
   end;
