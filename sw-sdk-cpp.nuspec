@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SW-SDK-CPP</id>
-    <version>0.0.0.3</version>
+    <version>0.0.0.4</version>
     <title>SW-SDK-CPP</title>
     <authors>SW SmarterWeb</authors>
     <owners>Equipo SmarterWeb</owners>
@@ -22,7 +22,7 @@
 
      <files>
         <file src="Release\sw-sdk-cpp.lib" target="lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\x86\Release\" />
-        <file src="sw-sdk-cpp\Release\sw-sdk-cpp.pdb" target="lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\x86\Release\pdh" />
+        <file src="Release\sw-sdk-cpp.pdb" target="lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\x86\Release\pdh" />
         <file src="sw-sdk-cpp\*.h" target="build\native\content" />
     </files>
 </package>
