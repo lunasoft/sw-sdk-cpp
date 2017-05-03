@@ -25,8 +25,10 @@ namespace swsdkcppUT
 		
 		TEST_METHOD(StampV1)
 		{
-			_resultExpect = "error";
+			_resultExpect = "success";
+			Logger::WriteMessage(StampByToken(_url, _token, _xml));
 			string result = Stamp(_url, _user, _password, _xml);
+			//Logger::WriteMessage(SplitJson(29, result));
 			char* status = SplitJson(29, result);
 			
 			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
@@ -34,8 +36,9 @@ namespace swsdkcppUT
 		
 		TEST_METHOD(StampV1ByToken)
 		{
-			_resultExpect = "error";
+			_resultExpect = "success";
 			string result = StampByToken(_url, _token, _xml);
+			Logger::WriteMessage(StampByToken(_url, _token, _xml));
 			char* status = SplitJson(29, result);
 			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
 		}
