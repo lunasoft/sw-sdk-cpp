@@ -19,10 +19,14 @@ SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password);
 SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR token);
 
 SWSDKCPP_API char *StampByToken(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampByTokenV2(char *_url, char *_token, char *_xml);
 SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd);
+SWSDKCPP_API int __stdcall StampByTokenVBV2(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd);
 
 SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml);
+SWSDKCPP_API char *StampV2(char *_url, char *_user, char *_password, char *_xml);
 SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
+SWSDKCPP_API int __stdcall StampVBV2(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
 
 SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml);
 

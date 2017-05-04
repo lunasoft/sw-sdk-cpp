@@ -67,6 +67,21 @@ SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPS
 	}
 	return 0;
 }
+
+SWSDKCPP_API int __stdcall StampByTokenVBV2(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd)
+{
+	try
+	{
+		char *tfdStamped = StampByTokenV2(url, token, xml);
+		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
+	}
+	catch (const std::exception& exc)
+	{
+		strcpy_s(tfd, 100, "Error al timbrar por token");
+		return -1;
+	}
+	return 0;
+}
 SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd)
 {
 	try
@@ -81,9 +96,29 @@ SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml,
 	}
 	return 0;
 }
+
+SWSDKCPP_API int __stdcall StampVBV2(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd)
+{
+	try
+	{
+		char *tfdStamped = StampV2(url, user, pass, xml);
+		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
+	}
+	catch (const std::exception& exc)
+	{
+		strcpy_s(tfd, 100, "Error al timbrar por token");
+		return -1;
+	}
+	return 0;
+}
 SWSDKCPP_API char *StampByToken(char * _url, char * _token, char *_xml)
 {
 	return StampRequest(_url, _token, _xml);
+}
+
+SWSDKCPP_API char *StampByTokenV2(char * _url, char * _token, char *_xml)
+{
+	return StampRequestV2(_url, _token, _xml);
 }
 
 SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml)
@@ -91,6 +126,13 @@ SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml)
 	string result = Authentication(_url, _user, _password);
 	char* _token = SplitJson(5, result);
 	return StampRequest(_url, _token, _xml);
+}
+
+SWSDKCPP_API char *StampV2(char *_url, char *_user, char *_password, char *_xml)
+{
+	string result = Authentication(_url, _user, _password);
+	char* _token = SplitJson(5, result);
+	return StampRequestV2(_url, _token, _xml);
 }
 
 bool ValidateXML(char *xml)
@@ -112,6 +154,8 @@ char *StampRequest(char *_url, char *_token, char *_xml) {
 		string path = "/cfdi33/stamp/v1";
 		url = url + path;
 		utility::string_t base;
+		string bearer = "bearer ";
+		
 		base = utility::conversions::to_string_t(url);
 		http_client client(base);
 		http_response httpResponse;
@@ -131,7 +175,58 @@ char *StampRequest(char *_url, char *_token, char *_xml) {
 		textBody += "\r\n";
 		textBody += textBoundary + "--";
 		textBody += "\r\n";
-		request.headers().add(L"Authorization", utility::conversions::to_string_t(_token));
+		request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer)+utility::conversions::to_string_t(_token));
+		request.headers().set_content_type(L"multipart/form-data; boundary=\"----=_Part_11_11939969.1490230712432\"");
+		request.set_body(textBody);
+
+		pplx::task<string> pro = client.request(request).then([](http_response response)
+		{
+			return response.extract_utf8string();
+		});
+		pro.wait();
+		string rr = pro.get();
+		char *last = new char[rr.size() + 1];
+		last[rr.size()] = 0;
+		memcpy(last, rr.c_str(), rr.size());
+		return last;
+	}
+}
+
+char *StampRequestV2(char *_url, char *_token, char *_xml) {
+	if (!ValidateXML(_xml))
+	{
+		return "XML mal Formado";
+	}
+	else
+	{
+		string url = _url;
+		string xml = _xml;
+		utility::string_t result;
+		string path = "/cfdi33/stamp/v2";
+		url = url + path;
+		utility::string_t base;
+		string bearer = "bearer ";
+
+		base = utility::conversions::to_string_t(url);
+		http_client client(base);
+		http_response httpResponse;
+		http_request request(methods::POST);
+
+		std::string textBoundary = "------=_Part_11_11939969.1490230712432";
+		std::string textBody = "";
+		textBody += textBoundary + "\r\n";
+		textBody += "Content-Type: text/xml";
+		textBody += "\r\n";
+		textBody += "Content-Transfer-Encoding: binary";
+		textBody += "\r\n";
+		textBody += "Content-Disposition: form-data; name=\"xml\"; filename=\"file.xml\"";
+		textBody += "\r\n";
+		textBody += "\r\n";
+		textBody += xml;
+		textBody += "\r\n";
+		textBody += textBoundary + "--";
+		textBody += "\r\n";
+		request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer) + utility::conversions::to_string_t(_token));
 		request.headers().set_content_type(L"multipart/form-data; boundary=\"----=_Part_11_11939969.1490230712432\"");
 		request.set_body(textBody);
 
