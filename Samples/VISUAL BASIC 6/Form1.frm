@@ -1,207 +1,183 @@
 VERSION 5.00
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
 Begin VB.Form Form1 
    Caption         =   "Form1"
-   ClientHeight    =   8160
+   ClientHeight    =   8265
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   16935
+   ClientWidth     =   14190
    LinkTopic       =   "Form1"
-   ScaleHeight     =   8160
-   ScaleWidth      =   16935
+   ScaleHeight     =   8265
+   ScaleWidth      =   14190
    StartUpPosition =   3  'Windows Default
-   Begin VB.CommandButton btnGetToken 
-      Caption         =   "Obtener Token"
-      BeginProperty Font 
-         Name            =   "Arial Narrow"
-         Size            =   14.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   615
-      Left            =   3480
-      TabIndex        =   6
-      Top             =   3960
-      Width           =   2055
-   End
-   Begin VB.TextBox txtToken 
-      Height          =   2295
-      Left            =   600
-      TabIndex        =   2
-      Top             =   4800
-      Width           =   9375
-   End
-   Begin VB.CommandButton Command1 
-      Caption         =   "GetCPUSpeed"
-      Height          =   375
-      Left            =   14280
-      TabIndex        =   0
-      Top             =   5280
-      Width           =   1215
-   End
-   Begin TabDlg.SSTab SSTab1 
-      Height          =   7095
-      Left            =   360
-      TabIndex        =   7
-      Top             =   480
-      Width           =   10095
-      _ExtentX        =   17806
-      _ExtentY        =   12515
-      _Version        =   393216
-      TabHeight       =   520
-      TabCaption(0)   =   "Autenticar"
-      TabPicture(0)   =   "Form1.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "lblUrl(0)"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "lblUsuario(1)"
-      Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "lblContrasena"
-      Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "txtUrl(0)"
-      Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "txtUsuario"
-      Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "txtContrasena"
-      Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).ControlCount=   6
-      TabCaption(1)   =   "TimbrarV1"
-      TabPicture(1)   =   "Form1.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).ControlCount=   0
-      TabCaption(2)   =   "Cancelar"
-      TabPicture(2)   =   "Form1.frx":0038
-      Tab(2).ControlEnabled=   0   'False
-      Tab(2).ControlCount=   0
-      Begin VB.TextBox txtContrasena 
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   615
-         Left            =   2040
+   Begin VB.Frame Frame2 
+      Caption         =   "Autenticacion"
+      Height          =   6855
+      Left            =   240
+      TabIndex        =   10
+      Top             =   600
+      Width           =   6495
+      Begin VB.CommandButton btnToken 
+         Caption         =   "Obtener Token"
+         Height          =   1455
+         Left            =   4320
+         TabIndex        =   18
+         Top             =   1200
+         Width           =   1575
+      End
+      Begin VB.TextBox txtToken 
+         Height          =   3135
+         Left            =   1680
+         MultiLine       =   -1  'True
+         TabIndex        =   17
+         Top             =   3480
+         Width           =   4575
+      End
+      Begin VB.TextBox txtUrlToken 
+         Height          =   735
+         Left            =   1680
+         TabIndex        =   13
+         Top             =   480
+         Width           =   2415
+      End
+      Begin VB.TextBox txtPasswordToken 
+         Height          =   735
+         Left            =   1680
          TabIndex        =   12
-         Top             =   2640
-         Width           =   3135
+         Top             =   2400
+         Width           =   2415
+      End
+      Begin VB.TextBox txtUserToken 
+         Height          =   855
+         Left            =   1680
+         TabIndex        =   11
+         Top             =   1320
+         Width           =   2415
+      End
+      Begin VB.Label Label9 
+         Caption         =   "Resultado Token"
+         Height          =   615
+         Left            =   360
+         TabIndex        =   21
+         Top             =   4680
+         Width           =   975
+      End
+      Begin VB.Label Label6 
+         Caption         =   "URL:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   16
+         Top             =   720
+         Width           =   615
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Password:"
+         Height          =   375
+         Left            =   240
+         TabIndex        =   15
+         Top             =   2520
+         Width           =   975
+      End
+      Begin VB.Label Label4 
+         Caption         =   "Usuario:"
+         Height          =   375
+         Left            =   240
+         TabIndex        =   14
+         Top             =   1560
+         Width           =   1095
+      End
+   End
+   Begin VB.Frame Frame1 
+      Caption         =   "Timbrado V2"
+      Height          =   6855
+      Left            =   7080
+      TabIndex        =   0
+      Top             =   600
+      Width           =   6615
+      Begin VB.TextBox txtXmlB64 
+         Height          =   1575
+         Left            =   1200
+         MultiLine       =   -1  'True
+         TabIndex        =   6
+         Top             =   3000
+         Width           =   5295
       End
       Begin VB.TextBox txtUsuario 
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
          Height          =   615
-         Left            =   2040
-         TabIndex        =   10
-         Top             =   1680
+         Left            =   1200
+         TabIndex        =   5
+         Top             =   480
+         Width           =   3135
+      End
+      Begin VB.TextBox txtPass 
+         Height          =   615
+         Left            =   1200
+         TabIndex        =   4
+         Top             =   1320
          Width           =   3135
       End
       Begin VB.TextBox txtUrl 
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   675
-         Index           =   0
-         Left            =   2040
-         TabIndex        =   1
-         Top             =   720
+         Height          =   735
+         Left            =   1200
+         TabIndex        =   3
+         Top             =   2160
          Width           =   3135
       End
-      Begin VB.Label lblContrasena 
-         Caption         =   "Contraseña:"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   735
-         Left            =   240
-         TabIndex        =   11
-         Top             =   2760
+      Begin VB.TextBox txtstampResult 
+         Height          =   1695
+         Left            =   1200
+         MultiLine       =   -1  'True
+         TabIndex        =   2
+         Top             =   4800
+         Width           =   5295
+      End
+      Begin VB.CommandButton btnStamp 
+         Caption         =   "Timbrar"
+         Height          =   1215
+         Left            =   4560
+         TabIndex        =   1
+         Top             =   1080
          Width           =   1695
       End
-      Begin VB.Label lblUsuario 
-         Caption         =   "Usuario:"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Index           =   1
-         Left            =   600
-         TabIndex        =   9
-         Top             =   1680
-         Width           =   1215
-      End
-      Begin VB.Label lblUrl 
-         Caption         =   "Url:"
-         BeginProperty Font 
-            Name            =   "Arial Narrow"
-            Size            =   15.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   495
-         Index           =   0
-         Left            =   1080
-         TabIndex        =   8
-         Top             =   720
+      Begin VB.Label Label8 
+         Caption         =   "Resultado"
+         Height          =   615
+         Left            =   240
+         TabIndex        =   20
+         Top             =   5400
          Width           =   735
       End
-   End
-   Begin VB.CommandButton Command5 
-      Caption         =   "FillString()"
-      Height          =   615
-      Left            =   15960
-      TabIndex        =   5
-      Top             =   3480
-      Width           =   2415
-   End
-   Begin VB.CommandButton Command3 
-      Caption         =   "GetTocken"
-      Height          =   495
-      Left            =   10800
-      TabIndex        =   4
-      Top             =   2640
-      Width           =   1335
-   End
-   Begin VB.CommandButton Command2 
-      Caption         =   "Sumar"
-      Height          =   495
-      Left            =   10800
-      TabIndex        =   3
-      Top             =   1920
-      Width           =   855
+      Begin VB.Label Label7 
+         Caption         =   "Xml en Base64"
+         Height          =   495
+         Left            =   240
+         TabIndex        =   19
+         Top             =   3600
+         Width           =   615
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Usuario:"
+         Height          =   375
+         Left            =   240
+         TabIndex        =   9
+         Top             =   600
+         Width           =   1695
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Password:"
+         Height          =   495
+         Left            =   240
+         TabIndex        =   8
+         Top             =   1560
+         Width           =   1335
+      End
+      Begin VB.Label Label3 
+         Caption         =   "URL:"
+         Height          =   615
+         Left            =   240
+         TabIndex        =   7
+         Top             =   2400
+         Width           =   1215
+      End
    End
 End
 Attribute VB_Name = "Form1"
@@ -209,115 +185,61 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Declare Function Suma Lib "MathDLL.dll" (ByVal x As Integer, ByVal y As Integer) As Integer
-Private Declare Function GetCpuSpeed Lib "MathDLL.dll" () As Integer
-Private Declare Function WritestStr Lib "MathDLL.dll" (ByVal mystr As String) As Long
-Private Declare Function GetTocken Lib "MathDLL.dll" (ByVal user As String, ByVal pass As String, ByVal Token As String) As Long
-Private Declare Function Authentication Lib "sw-sdk-cpp.dll" (ByRef url As String, ByRef user As String, ByRef pass As String) As Long
-Private Declare Function AuthenticationVB Lib "sw-sdk-cpp.dll" (ByVal url As String, ByVal user As String, ByVal pass As String, ByVal Token As String) As Long
+Private Declare Function AuthenticationVB Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal Token As String) As Long
+Private Declare Function StampByTokenVB Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal Token As String, ByVal xml As String, ByVal tfd As String) As Long
+Private Declare Function StampVB Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal xml As String, ByVal tfd As String) As Long
+Private Declare Function StampVBV2 Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal xml As String, ByVal tfd As String) As Long
+Private Declare Function StampVBV3 Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal xml As String, ByVal tfd As String) As Long
+Private Declare Function StampVBV4 Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal xml As String, ByVal tfd As String) As Long
 Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
 
 
-Private Sub btnGetToken_Click()
-Dim Token As String
-Dim user As String
-Dim pass As String
-Dim url As String
+Private Sub btnStamp_Click()
+Dim User As String
+Dim Password As String
+Dim Url As String
+Dim xml As String
 Dim nLen As String
-pass = Form1.txtContrasena.Text
-user = Form1.txtUsuario.Text
-url = Form1.txtUrl.Text
-Token = Space$(1024)
-nLen = AuthenticationVB(url, user, pass, Token)
-Form1.txtToken.Text = Token
+Dim tfd As String
+tfd = Space$(20000)
+Url = Form1.txtUrl.Text
+User = Form1.txtUsuario.Text
+Password = Form1.txtPass.Text
+xml = Form1.txtXmlB64.Text
+If Url = "" Or User = "" Or Password = "" Or xml = "" Then
+MsgBox ("Debes tener los datos de Url, usuario, Password y Xml")
+Else
+nLen = StampVB(Url, User, Password, xml, tfd)
+Form1.txtstampResult.Text = tfd
+End If
 End Sub
 
-Private Sub Command2_Click()
-Dim result As Integer
-Dim sum As String
-
-
-result = Suma(10, 30)
-sum = result
-Form1.Text1.Text = "Suma() returned " + sum
-End Sub
-
-Private Sub Command3_Click()
- Dim Token As String
- Dim nLen As Long
- Dim user As String
- Dim pass As String
- 
- pass = "123456789"
- user = "demo"
- Token = Space$(1024)
- nLen = GetTocken(user, pass, Token)
-Form1.Text1.Text = "GetString() returned " + Token
-End Sub
-
-
-Private Sub Command4_Click()
+Private Sub btnToken_Click()
 Dim Token As String
-Dim user As String
-Dim pass As String
-Dim url As String
+Dim User As String
+Dim Pass As String
+Dim Url As String
 Dim nLen As String
-pass = "123456789"
-user = "demo"
-url = "http://services.test.sw.com.mx"
+Pass = Form1.txtPasswordToken.Text
+User = Form1.txtUserToken.Text
+Url = Form1.txtUrlToken.Text
 Token = Space$(1024)
-nLen = AuthenticationVB(url, user, pass, Token)
-Form1.Text1.Text = "Token: " + Token
-End Sub
-
-Private Sub Command5_Click()
- Dim mystr As String
- Dim nLen As Long
- mystr = Space$(1024)
- nLen = WritestStr(mystr)
-Form1.Text1.Text = "GetString() returned " + mystr
+If Pass = "" Or User = "" Or Url = "" Then
+    MsgBox ("Debes tener los datos de Url, usuario y contraseña")
+Else
+    nLen = AuthenticationVB(Url, User, Pass, Token)
+    Form1.txtToken.Text = Token
+End If
 End Sub
 
 Private Sub Form_Initialize()
     InitCommonControls
     ChDir App.Path
-
+    Form1.txtUsuario.Text = "demo"
+    Form1.txtPass.Text = "123456789"
+    Form1.txtUrl.Text = "http://swservicestest-rc.azurewebsites.net"
+    Form1.txtPasswordToken.Text = "123456789"
+    Form1.txtUserToken.Text = "demo"
+    Form1.txtUrlToken.Text = "http://swservicestest-rc.azurewebsites.net"
 End Sub
 
-Private Sub Command1_Click()
-Dim nSpeed As Integer
-    Dim s As String
-    
-    Screen.MousePointer = vbHourglass
-    nSpeed = GetCpuSpeed()
-    Screen.MousePointer = 0
-    
-    s = nSpeed
-    
-    Form1.Text1.Text = "GetCpuSpeed() returned " + s
-
-
-
-End Sub
-
-Private Sub Form_Load()
-
-    Form1.Text1.Text = ""
-    
-End Sub
-
-Private Sub lblContrasena_Click()
-
-End Sub
-
-Private Sub lblUrl_Click(Index As Integer)
-
-End Sub
-
-Private Sub SSTab1_DblClick()
-
-End Sub
-
-Private Sub txtUrl_Change(Index As Integer)
-
-End Sub
