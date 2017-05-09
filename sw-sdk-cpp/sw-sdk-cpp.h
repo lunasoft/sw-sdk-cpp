@@ -20,16 +20,22 @@ SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, L
 
 SWSDKCPP_API char *StampByToken(char *_url, char *_token, char *_xml);
 SWSDKCPP_API char *StampByTokenV2(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampByTokenV3(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampByTokenV4(char *_url, char *_token, char *_xml);
 SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd);
 SWSDKCPP_API int __stdcall StampByTokenVBV2(LPSTR url, LPSTR token, LPSTR xml, LPSTR tfd);
 
 SWSDKCPP_API char *Stamp(char *_url, char *_user, char *_password, char *_xml);
 SWSDKCPP_API char *StampV2(char *_url, char *_user, char *_password, char *_xml);
+SWSDKCPP_API char *StampV3(char *_url, char *_user, char *_password, char *_xml);
+SWSDKCPP_API char *StampV4(char *_url, char *_user, char *_password, char *_xml);
 SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
 SWSDKCPP_API int __stdcall StampVBV2(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
+SWSDKCPP_API int __stdcall StampVBV3(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
+SWSDKCPP_API int __stdcall StampVBV4(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml, LPSTR tfd);
 
-SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml);
-SWSDKCPP_API char *StampRequestV2(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml, char *_version, char *_formato);
+//SWSDKCPP_API char *StampRequestV2(char *_url, char *_token, char *_xml);
 
 SWSDKCPP_API char *SplitJson(int find, string str);
 SWSDKCPP_API string dummy(string d);
