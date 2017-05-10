@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
 Begin VB.Form Form1 
    Caption         =   "Form1"
    ClientHeight    =   8265
@@ -9,6 +10,13 @@ Begin VB.Form Form1
    ScaleHeight     =   8265
    ScaleWidth      =   14190
    StartUpPosition =   3  'Windows Default
+   Begin MSComDlg.CommonDialog CommonDialog1 
+      Left            =   13200
+      Top             =   600
+      _ExtentX        =   847
+      _ExtentY        =   847
+      _Version        =   393216
+   End
    Begin VB.Frame Frame2 
       Caption         =   "Autenticacion"
       Height          =   6855
@@ -93,6 +101,14 @@ Begin VB.Form Form1
       TabIndex        =   0
       Top             =   600
       Width           =   6615
+      Begin VB.CommandButton btnOpenXml 
+         Caption         =   "Seleccionar Archivo"
+         Height          =   855
+         Left            =   4560
+         TabIndex        =   22
+         Top             =   480
+         Width           =   1695
+      End
       Begin VB.TextBox txtXmlB64 
          Height          =   1575
          Left            =   1200
@@ -135,7 +151,7 @@ Begin VB.Form Form1
          Height          =   1215
          Left            =   4560
          TabIndex        =   1
-         Top             =   1080
+         Top             =   1680
          Width           =   1695
       End
       Begin VB.Label Label8 
@@ -147,12 +163,12 @@ Begin VB.Form Form1
          Width           =   735
       End
       Begin VB.Label Label7 
-         Caption         =   "Xml en Base64"
+         Caption         =   "Documento a timbrar"
          Height          =   495
-         Left            =   240
+         Left            =   120
          TabIndex        =   19
          Top             =   3600
-         Width           =   615
+         Width           =   975
       End
       Begin VB.Label Label1 
          Caption         =   "Usuario:"
@@ -193,6 +209,32 @@ Private Declare Function StampVBV3 Lib "sw-sdk-cpp.dll" (ByVal Url As String, By
 Private Declare Function StampVBV4 Lib "sw-sdk-cpp.dll" (ByVal Url As String, ByVal User As String, ByVal Pass As String, ByVal xml As String, ByVal tfd As String) As Long
 Private Declare Sub InitCommonControls Lib "comctl32.dll" ()
 
+
+Private Sub btnSeleccionarFactura_Click()
+Dim filename As String
+Dim adoStream As ADODB.Stream
+Dim var_String As String
+CommonDialog1.DialogTitle = "Seleccionar Archivo"
+CommonDialog1.ShowOpen
+filename = CommonDialog1.filename
+Set adoStream = New ADODB.Stream
+    adoStream.Charset = "UTF-8"
+    adoStream.Open
+    adoStream.LoadFromFile CommonDialog1.filename
+    var_String = adoStream.ReadText
+    txtXmlB64.Text = var_String
+End Sub
+
+Private Sub btnOpenXml_Click()
+CommonDialog1.ShowOpen
+filename = CommonDialog1.filename
+    Set adoStream = New ADODB.Stream
+    adoStream.Charset = "UTF-8"
+    adoStream.Open
+    adoStream.LoadFromFile CommonDialog1.filename
+    var_String = adoStream.ReadText
+    txtXmlB64.Text = var_String
+End Sub
 
 Private Sub btnStamp_Click()
 Dim User As String
