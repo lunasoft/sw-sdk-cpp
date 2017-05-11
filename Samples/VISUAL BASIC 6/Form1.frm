@@ -1,28 +1,73 @@
 VERSION 5.00
-Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.Form Form1 
    Caption         =   "Form1"
-   ClientHeight    =   8265
+   ClientHeight    =   13275
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   14190
+   ClientWidth     =   14970
    LinkTopic       =   "Form1"
-   ScaleHeight     =   8265
-   ScaleWidth      =   14190
+   ScaleHeight     =   13275
+   ScaleWidth      =   14970
    StartUpPosition =   3  'Windows Default
-   Begin MSComDlg.CommonDialog CommonDialog1 
-      Left            =   13200
-      Top             =   600
-      _ExtentX        =   847
-      _ExtentY        =   847
+   Begin MSComctlLib.ProgressBar ProgressBar1 
+      Height          =   855
+      Left            =   360
+      TabIndex        =   22
+      Top             =   11520
+      Width           =   13215
+      _ExtentX        =   23310
+      _ExtentY        =   1508
       _Version        =   393216
+      Appearance      =   1
+      Max             =   5000
+   End
+   Begin VB.Frame Frame3 
+      Caption         =   "Pruebas Unitarias"
+      Height          =   5295
+      Left            =   240
+      TabIndex        =   23
+      Top             =   7200
+      Width           =   13455
+      Begin VB.TextBox txtXmlResult 
+         Height          =   1335
+         Left            =   240
+         MultiLine       =   -1  'True
+         TabIndex        =   26
+         Top             =   1560
+         Width           =   11175
+      End
+      Begin VB.TextBox txtXmlRequest 
+         Height          =   1215
+         Left            =   240
+         MultiLine       =   -1  'True
+         TabIndex        =   25
+         Top             =   240
+         Width           =   11175
+      End
+      Begin VB.CommandButton btnStartTests 
+         Caption         =   "Comenzar ejecución de pruebas unitarias"
+         Height          =   1335
+         Left            =   11520
+         TabIndex        =   24
+         Top             =   840
+         Width           =   1815
+      End
+      Begin VB.Label lblLogs 
+         Caption         =   "Logs: "
+         Height          =   1095
+         Left            =   240
+         TabIndex        =   27
+         Top             =   3120
+         Width           =   13095
+      End
    End
    Begin VB.Frame Frame2 
       Caption         =   "Autenticacion"
       Height          =   6855
       Left            =   240
       TabIndex        =   10
-      Top             =   600
+      Top             =   120
       Width           =   6495
       Begin VB.CommandButton btnToken 
          Caption         =   "Obtener Token"
@@ -99,16 +144,8 @@ Begin VB.Form Form1
       Height          =   6855
       Left            =   7080
       TabIndex        =   0
-      Top             =   600
+      Top             =   120
       Width           =   6615
-      Begin VB.CommandButton btnOpenXml 
-         Caption         =   "Seleccionar Archivo"
-         Height          =   855
-         Left            =   4560
-         TabIndex        =   22
-         Top             =   480
-         Width           =   1695
-      End
       Begin VB.TextBox txtXmlB64 
          Height          =   1575
          Left            =   1200
@@ -149,9 +186,9 @@ Begin VB.Form Form1
       Begin VB.CommandButton btnStamp 
          Caption         =   "Timbrar"
          Height          =   1215
-         Left            =   4560
+         Left            =   4680
          TabIndex        =   1
-         Top             =   1680
+         Top             =   960
          Width           =   1695
       End
       Begin VB.Label Label8 
@@ -236,25 +273,127 @@ filename = CommonDialog1.filename
     txtXmlB64.Text = var_String
 End Sub
 
-Private Sub btnStamp_Click()
-Dim User As String
-Dim Password As String
-Dim Url As String
-Dim xml As String
-Dim nLen As String
-Dim tfd As String
-tfd = Space$(20000)
-Url = Form1.txtUrl.Text
-User = Form1.txtUsuario.Text
-Password = Form1.txtPass.Text
-xml = Form1.txtXmlB64.Text
-If Url = "" Or User = "" Or Password = "" Or xml = "" Then
-MsgBox ("Debes tener los datos de Url, usuario, Password y Xml")
-Else
-nLen = StampVB(Url, User, Password, xml, tfd)
-Form1.txtstampResult.Text = tfd
-End If
+Private Sub btnStartTests_Click()
+Dim x As Long
+Dim path As String
+Dim xmlB64(0 To 4) As String
+Dim i As Long
+
+path = App.path + "\UnitTest\"
+xmlB64(3) = path + "comercioexterior.txt"
+xmlB64(0) = path + "conceptos2.txt"
+xmlB64(2) = path + "nomina.txt"
+xmlB64(1) = path + "pago10.txt"
+
+
+MsgBox ("Se ejecutaran las siguientes pruebas" + Chr(10) + xmlB64(0) + Chr(10) + xmlB64(1) + Chr(10) + xmlB64(2) + Chr(10) + xmlB64(3))
+Dim y As Long
+y = ProgressBar1.Max / 4
+y = y / 4
+Dim j As Long
+
+For i = 0 To 3
+Dim line As String, total As String
+Open xmlB64(i) For Input As #1
+Do Until EOF(1)
+Line Input #1, Linea
+total = ""
+total = total + Linea + vbCrLf
+Loop
+Close #1
+txtXmlRequest.Text = total
+txtXmlResult.Text = StampXml(total, 1)
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "1")
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+ProgressBar1.Value = y * (j + 1)
+txtXmlResult.Text = StampXml(total, 2)
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "2")
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+ProgressBar1.Value = y * (j + 2)
+txtXmlResult.Text = StampXml(total, 3)
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "3")
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+ProgressBar1.Value = y * (j + 3)
+txtXmlResult.Text = StampXml(total, 4)
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "4")
+lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+ProgressBar1.Value = y * (j + 4)
+j = j + 4
+Next i
+
+
 End Sub
+Public Function stringContain(ByVal result As String, ByVal contain As String, ByVal path As String, ByVal versionStamp As String) As String
+Dim FountIt
+FountIt = InStr(1, result, contain)
+If FountIt <> 0 Then
+    MsgBox ("Error en la versión de timbrado " + versionStamp + result + " en el archivo" + path + " Detalles: " + result)
+    stringContain = "Error en la versión de timbrado " + versionStamp + result + " en el archivo" + path + " Detalles: " + result
+End If
+
+End Function
+Public Function encodeBase64(ByRef arrData() As Byte) As String
+   Dim objXML As MSXML2.DOMDocument
+   Dim objNode As MSXML2.IXMLDOMElement
+   Set objXML = New MSXML2.DOMDocument
+   Set objNode = objXML.createElement("b64")
+   objNode.dataType = "bin.base64"
+   objNode.nodeTypedValue = arrData
+   encodeBase64 = objNode.Text
+   Set objNode = Nothing
+   Set objXML = Nothing
+End Function
+Function bin2Byte(ByVal s As String) As Byte()
+    Dim bitsIn As Long
+    bitsIn = 8
+ 
+    Dim i As Long
+    'pad with zeros
+    If Len(s) Mod bitsIn <> 0 Then
+        For i = 1 To bitsIn - Len(s) Mod bitsIn
+            s = "0" & s
+        Next i
+    End If
+     
+    i = Len(s)
+    Dim bytes() As Byte
+    Dim byteCount As Long
+    byteCount = -1
+    Dim sByte As String
+    Do While LenB(s) > 0
+        byteCount = byteCount + 1
+        ReDim Preserve bytes(byteCount)
+         
+        sByte = Mid$(s, Len(s) - bitsIn + 1)
+        'sByte = Mid$(s, 1, bitsIn)
+        For i = 0 To 7 Step 1
+            bytes(byteCount) = bytes(byteCount) + CLng(Mid$(sByte, 8 - i, 1)) * 2 ^ i
+        Next i
+        s = Mid$(s, 1, Len(s) - bitsIn)
+        's = Mid$(s, bitsIn + 1)
+    Loop
+    bin2Byte = bytes
+End Function
+Function byte2Bin(ByRef bytes() As Byte) As String
+    Dim i As Long, j As Long
+    Dim bin As String
+    For i = 0 To UBound(bytes)
+        bin = Space$(8)
+         
+        For j = 0 To 7
+            If bytes(i) And 2 ^ j Then
+                Mid(bin, 8 - j, 1) = "1"
+            Else
+                'Mid(bin, 8 - j, 1) = "0"
+            End If
+        Next j
+         
+        byte2Bin = bin & byte2Bin
+    Next i
+    byte2Bin = LTrim$(byte2Bin)
+    byte2Bin = Replace(byte2Bin, " ", "0", 1, -1, vbBinaryCompare)
+End Function
+
 
 Private Sub btnToken_Click()
 Dim Token As String
@@ -274,9 +413,48 @@ Else
 End If
 End Sub
 
+Private Sub btnStamp_Click()
+Form1.txtstampResult.Text = StampXml(Form1.txtXmlB64.Text, 4)
+End Sub
+
+Public Function StampXml(ByVal xml As String, ByVal version As Integer) As String
+Dim User As String
+Dim Password As String
+Dim Url As String
+Dim xml_ As String
+Dim nLen As String
+Dim tfd As String
+tfd = Space$(2000000)
+Url = Form1.txtUrl.Text
+User = Form1.txtUsuario.Text
+Password = Form1.txtPass.Text
+xml_ = xml
+
+If Url = "" Or User = "" Or Password = "" Or xml = "" Then
+MsgBox ("Debes tener los datos de Url, usuario, Password y Xml")
+Else
+Select Case version
+    Case 1
+        nLen = StampVB(Url, User, Password, xml, tfd)
+    Case 2
+        nLen = StampVBV2(Url, User, Password, xml, tfd)
+    Case 3
+        nLen = StampVBV3(Url, User, Password, xml, tfd)
+    Case 4
+        nLen = StampVBV4(Url, User, Password, xml, tfd)
+End Select
+StampXml = tfd
+End If
+
+End Function
+
+Private Sub Command1_Click()
+
+End Sub
+
 Private Sub Form_Initialize()
     InitCommonControls
-    ChDir App.Path
+    ChDir App.path
     Form1.txtUsuario.Text = "demo"
     Form1.txtPass.Text = "123456789"
     Form1.txtUrl.Text = "http://swservicestest-rc.azurewebsites.net"
@@ -285,3 +463,8 @@ Private Sub Form_Initialize()
     Form1.txtUrlToken.Text = "http://swservicestest-rc.azurewebsites.net"
 End Sub
 
+Private Sub Label18_Click()
+End Sub
+
+Private Sub Label12_Click()
+End Sub
