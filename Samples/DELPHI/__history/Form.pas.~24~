@@ -272,6 +272,31 @@ begin
         else
           chStampWithToken.IsChecked := False;
 
+       //Stamp Many
+        path :=  PAnsiChar(AnsiString('..//..//Resources/coceptos4.xml'));
+        AssignFile(myXMLFile, path);
+        Reset(myXMLFile);
+        while not Eof(myXMLFile) do
+           begin
+             ReadLn(myXMLFile, strTemp);
+             xmlString := Concat(xmlString, strTemp);
+           end;
+        CloseFile(myXMLFile);
+
+        _PxmlString := PAnsiChar(AnsiString(xmlString));
+
+         x := TNetEncoding.Base64.Encode(_PxmlString);
+         _xmlB64 := PAnsiChar(AnsiString(x));
+        resultStampMany := StampByToken(_url, _token, _xmlB64);
+        MemoStampOutToken.Lines.Text := resultStampMany;
+        if (resultStampMany <> '') and (resultStampMany.Contains('tfd'))
+          then
+            begin
+               chStampMany.IsChecked := True;
+            end
+        else
+          chStampMany.IsChecked := False;
+
        //Error 404
         result := StampByToken(_url, _token, _xmlB64);
         MemoError404.Lines.Text := result;
@@ -316,31 +341,6 @@ begin
         else
            MemoError401.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
 
-        //Stamp Many
-        path :=  PAnsiChar(AnsiString('..//..//Resources/conceptos5.xml'));
-        xmlString := '';
-        AssignFile(myXMLFile, path);
-        Reset(myXMLFile);
-        while not Eof(myXMLFile) do
-           begin
-             ReadLn(myXMLFile, strTemp);
-             xmlString := Concat(xmlString, strTemp);
-           end;
-        CloseFile(myXMLFile);
-
-        _PxmlString := PAnsiChar(AnsiString(xmlString));
-
-         x := TNetEncoding.Base64.Encode(_PxmlString);
-         _xmlB64 := PAnsiChar(AnsiString(x));
-        resultStampMany := StampByToken(_url, _token, _xmlB64);
-        MemoStampMany.Lines.Text := resultStampMany;
-        if (resultStampMany <> '') and (resultStampMany.Contains('tfd'))
-          then
-            begin
-               chStampMany.IsChecked := True;
-            end
-        else
-          chStampMany.IsChecked := False;
 end;
 
 procedure TForm1.BtnClearClick(Sender: TObject);

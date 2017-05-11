@@ -48,11 +48,9 @@ type
     memoStampOutToken: TMemo;
     MemoStampWithToken: TMemo;
     chError404: TCheckBox;
+    MemoError404: TMemo;
     chError401: TCheckBox;
     MemoError401: TMemo;
-    MemoError404: TMemo;
-    MemoStampMany: TMemo;
-    chStampMany: TCheckBox;
     procedure BtnAuthenticationClick(Sender: TObject);
     procedure BtnStampTokenClick(Sender: TObject);
     procedure BtnStampOutTokenClick(Sender: TObject);
@@ -196,7 +194,6 @@ var
     resultStampWithToken : string;
     resultError404 : string;
     resultError401 : string;
-    resultStampMany : string;
      _url : PAnsiChar;
     _user : PAnsiChar;
     _password : PAnsiChar;
@@ -277,7 +274,7 @@ begin
         MemoError404.Lines.Text := result;
 
         LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;
-        _MessageJson := LJsonObj.GetValue('message') as TJSONString;
+        _MessageJson := objData.GetValue('message') as TJSONString;
         if _MessageJson <> nil
           then
               begin
@@ -286,61 +283,13 @@ begin
                 if (_code = '404')
                   then
                     begin
-                      chError404.IsChecked := True;
+                      chStampWithToken.IsChecked := True;
                     end
                 else
-                  chError404.IsChecked := False;
+                  chStampWithToken.IsChecked := False;
               end
         else
-           MemoError404.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
-
-        //Error 401
-        result := StampByToken(_url, _token, _xmlB64);
-        MemoError401.Lines.Text := result;
-
-        LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;
-        _MessageJson := LJsonObj.GetValue('message') as TJSONString;
-        if _MessageJson <> nil
-          then
-              begin
-                _code := _MessageJson.Value;
-
-                if (_code = '401')
-                  then
-                    begin
-                      chError401.IsChecked := True;
-                    end
-                else
-                  chError401.IsChecked := False;
-              end
-        else
-           MemoError401.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
-
-        //Stamp Many
-        path :=  PAnsiChar(AnsiString('..//..//Resources/conceptos5.xml'));
-        xmlString := '';
-        AssignFile(myXMLFile, path);
-        Reset(myXMLFile);
-        while not Eof(myXMLFile) do
-           begin
-             ReadLn(myXMLFile, strTemp);
-             xmlString := Concat(xmlString, strTemp);
-           end;
-        CloseFile(myXMLFile);
-
-        _PxmlString := PAnsiChar(AnsiString(xmlString));
-
-         x := TNetEncoding.Base64.Encode(_PxmlString);
-         _xmlB64 := PAnsiChar(AnsiString(x));
-        resultStampMany := StampByToken(_url, _token, _xmlB64);
-        MemoStampMany.Lines.Text := resultStampMany;
-        if (resultStampMany <> '') and (resultStampMany.Contains('tfd'))
-          then
-            begin
-               chStampMany.IsChecked := True;
-            end
-        else
-          chStampMany.IsChecked := False;
+           MemoError404.Lines.Text := 'Hubo un problema al conectarse con la Dll';
 end;
 
 procedure TForm1.BtnClearClick(Sender: TObject);

@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 428
+  ClientHeight = 514
   ClientWidth = 665
   Position = ScreenCenter
   FormStyle = Popup
@@ -10,36 +10,24 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
-  object MemoResult: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Position.X = 8.000000000000000000
-    Position.Y = 232.000000000000000000
-    Size.Width = 649.000000000000000000
-    Size.Height = 185.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 0
-    Viewport.Width = 645.000000000000000000
-    Viewport.Height = 181.000000000000000000
-  end
   object TbControl: TTabControl
     Position.X = 8.000000000000000000
     Size.Width = 649.000000000000000000
-    Size.Height = 225.000000000000000000
+    Size.Height = 505.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
-    TabOrder = 1
+    TabIndex = 0
+    TabOrder = 0
     TabPosition = PlatformDefault
     Sizes = (
       649s
-      199s
+      479s
       649s
-      199s)
+      479s)
     object TbItemAuthenticatio: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 75.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -48,6 +36,17 @@ object Form1: TForm1
       Text = 'Autenticar'
       ExplicitSize.cx = 75.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      object MemoResult: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 294.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 185.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 8
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 181.000000000000000000
+      end
       object Text1: TText
         Position.X = 24.000000000000000000
         Position.Y = 23.000000000000000000
@@ -121,12 +120,22 @@ object Form1: TForm1
         Text = 'Obtener Token'
         OnClick = BtnAuthenticationClick
       end
+      object BtnClear: TButton
+        Position.X = 592.000000000000000000
+        Position.Y = 446.000000000000000000
+        Size.Width = 57.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 7
+        Text = 'Limpiar'
+        OnClick = BtnClearClick
+      end
     end
     object TbItemStampV1: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 75.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -212,22 +221,6 @@ object Form1: TForm1
       object TxtToken: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 3
-        Text = 
-          'T2lYQ0t4L0RHVkR4dHZ5Nkk1VHNEakZ3Y0J4Nk9GODZuRyt4cE1wVm5tbXB3YVZx' +
-          'THdOdHAwVXY2NTdJb1hkREtXTzE3dk9pMmdMdkFDR2xFWFVPUXpTUm9mTG1ySXdZ' +
-          'bFNja3FRa0RlYURqbzdzdlI2UUx1WGJiKzViUWY2dnZGbFloUDJ6RjhFTGF4M1By' +
-          'SnJ4cHF0YjUvbmRyWWpjTkVLN3ppd3RxL0dJPQ.T2lYQ0t4L0RHVkR4dHZ5Nkk1V' +
-          'HNEakZ3Y0J4Nk9GODZuRyt4cE1wVm5tbFlVcU92YUJTZWlHU3pER1kySnlXRTF4a' +
-          'lNUS0ZWcUlVS0NhelhqaXdnWTRncklVSWVvZlFZMWNyUjVxYUFxMWFxcStUL1Izd' +
-          'GpHRTJqdS9Zakw2UGRiMTFPRlV3a2kyOWI5WUZHWk85ODJtU0M2UlJEUkFTVXhYT' +
-          'DNKZVdhOXIySE1tUVlFdm1jN3kvRStBQlpLRi9NeWJrd0R3clhpYWJrVUMwV0Mwd' +
-          '3FhUXdpUFF5NW5PN3J5cklMb0FETHlxVFRtRW16UW5ZVjAwUjdCa2g0Yk1iTExCe' +
-          'XJkVDRhMGMxOUZ1YWlIUWRRVC8yalFTNUczZXdvWlF0cSt2UW0waFZKY2gyaW5je' +
-          'ElydXN3clNPUDNvU1J2dm9weHBTSlZYNU9aaGsvalpQMUxrUndzK0dHS2dpTittY' +
-          '1JmR3o2M3NqNkh4MW9KVXMvUHhZYzVLQS9UK2E1SVhEZFJKYWx4ZmlEWDFuSXlqc' +
-          '2ZRYXlUQk1ldlZkU2tEdU10NFVMdHZKUURLblBxakw0SDl5bUxabDFLNmNPbEp6b' +
-          '3Jtd2Q1V2htRHlTdDZ6eTFRdUNnYnVvK2tuVUdhMmwrVWRCZi9rQkU9.7k2gVCGS' +
-          'ZKLzJK5Ky3Nr5tKxvGSJhL13Q8W-YhT0uIo'
         Position.X = 128.000000000000000000
         Position.Y = 144.000000000000000000
         Size.Width = 185.000000000000000000
@@ -272,6 +265,38 @@ object Form1: TForm1
         Size.Width = 185.000000000000000000
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
+      end
+      object MemoResultStamp: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 344.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 135.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 14
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 131.000000000000000000
+      end
+      object Button1: TButton
+        Position.X = 592.000000000000000000
+        Position.Y = 446.000000000000000000
+        Size.Width = 57.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 12
+        Text = 'Limpiar'
+        OnClick = BtnClearStampClick
+      end
+      object MemoXML: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 200.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 135.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 13
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 131.000000000000000000
       end
     end
   end
