@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 428
+  ClientHeight = 514
   ClientWidth = 665
   Position = ScreenCenter
   FormStyle = Popup
@@ -10,42 +10,43 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
-  object MemoResult: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Position.X = 8.000000000000000000
-    Position.Y = 232.000000000000000000
-    Size.Width = 649.000000000000000000
-    Size.Height = 185.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 0
-    Viewport.Width = 645.000000000000000000
-    Viewport.Height = 181.000000000000000000
-  end
   object TbControl: TTabControl
     Position.X = 8.000000000000000000
     Size.Width = 649.000000000000000000
-    Size.Height = 225.000000000000000000
+    Size.Height = 505.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
-    TabOrder = 1
+    TabIndex = 1
+    TabOrder = 0
     TabPosition = PlatformDefault
     Sizes = (
       649s
-      199s
+      479s
       649s
-      199s)
+      479s)
     object TbItemAuthenticatio: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 75.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'Autenticar'
+      ExplicitSize.cx = 75.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object MemoResult: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 294.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 185.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 8
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 181.000000000000000000
+      end
       object Text1: TText
         Position.X = 24.000000000000000000
         Position.Y = 23.000000000000000000
@@ -119,18 +120,30 @@ object Form1: TForm1
         Text = 'Obtener Token'
         OnClick = BtnAuthenticationClick
       end
+      object BtnClear: TButton
+        Position.X = 592.000000000000000000
+        Position.Y = 446.000000000000000000
+        Size.Width = 57.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 7
+        Text = 'Limpiar'
+        OnClick = BtnClearClick
+      end
     end
     object TbItemStampV1: TTabItem
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 75.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'TimbrarV1'
+      ExplicitSize.cx = 75.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object Text4: TText
         Position.X = 24.000000000000000000
         Position.Y = 23.000000000000000000
@@ -164,7 +177,7 @@ object Form1: TForm1
         Text = 'Contrase'#241'a:'
         TextSettings.HorzAlign = Trailing
       end
-      object Edit1: TEdit
+      object TxtPasswordStamp: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 4
         Text = '123456789'
@@ -174,9 +187,9 @@ object Form1: TForm1
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
       end
-      object Edit2: TEdit
+      object TxtUrlStamp: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
-        TabOrder = 6
+        TabOrder = 7
         Text = 'http://services.test.sw.com.mx'
         Position.X = 128.000000000000000000
         Position.Y = 24.000000000000000000
@@ -184,7 +197,7 @@ object Form1: TForm1
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
       end
-      object Edit3: TEdit
+      object TxtUserStamp: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 5
         Text = 'demo'
@@ -205,10 +218,9 @@ object Form1: TForm1
         Text = 'Token:'
         TextSettings.HorzAlign = Trailing
       end
-      object Edit4: TEdit
+      object TxtToken: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         TabOrder = 3
-        Text = '123456789'
         Position.X = 128.000000000000000000
         Position.Y = 144.000000000000000000
         Size.Width = 185.000000000000000000
@@ -216,24 +228,75 @@ object Form1: TForm1
         Size.PlatformDefault = False
       end
       object BtnStampToken: TButton
-        Position.X = 400.000000000000000000
-        Position.Y = 104.000000000000000000
-        Size.Width = 113.000000000000000000
-        Size.Height = 41.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 8
-        Text = 'Timbrar Con Token'
-        OnClick = BtnStampTokenClick
-      end
-      object BtnStampOutToken: TButton
-        Position.X = 400.000000000000000000
-        Position.Y = 56.000000000000000000
-        Size.Width = 113.000000000000000000
+        Position.X = 344.000000000000000000
+        Position.Y = 136.000000000000000000
+        Size.Width = 233.000000000000000000
         Size.Height = 41.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 9
-        Text = 'Timbrar Sin Token'
+        Text = 'Timbrar Con Token (Requiere Token)'
+        OnClick = BtnStampTokenClick
+      end
+      object BtnStampOutToken: TButton
+        Position.X = 344.000000000000000000
+        Position.Y = 80.000000000000000000
+        Size.Width = 233.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 11
+        Text = 'Timbrar Sin Token (Requiere Credenciales)'
         OnClick = BtnStampOutTokenClick
+      end
+      object BtnOpenFile: TButton
+        Position.X = 528.000000000000000000
+        Position.Y = 24.000000000000000000
+        Size.Width = 49.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 10
+        Text = 'Buscar'
+        OnClick = BtnOpenFileClick
+      end
+      object TxtFilePath: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 6
+        Position.X = 344.000000000000000000
+        Position.Y = 24.000000000000000000
+        Size.Width = 185.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object MemoResultStamp: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 344.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 135.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 14
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 131.000000000000000000
+      end
+      object Button1: TButton
+        Position.X = 592.000000000000000000
+        Position.Y = 446.000000000000000000
+        Size.Width = 57.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 12
+        Text = 'Limpiar'
+        OnClick = BtnClearStampClick
+      end
+      object MemoXML: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Position.Y = 200.000000000000000000
+        Size.Width = 649.000000000000000000
+        Size.Height = 135.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 13
+        Viewport.Width = 645.000000000000000000
+        Viewport.Height = 131.000000000000000000
       end
     end
   end

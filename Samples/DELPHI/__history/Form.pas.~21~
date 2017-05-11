@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ScrollBox, FMX.Memo,
   FMX.TabControl, FMX.Edit, FMX.MultiView,
-  System.NetEncoding, System.JSON, System.IOUtils;
+  System.NetEncoding, System.SysUtils, System.JSON, System.IOUtils;
 
 type
   TForm1 = class(TForm)
@@ -47,12 +47,6 @@ type
     memoGetToken: TMemo;
     memoStampOutToken: TMemo;
     MemoStampWithToken: TMemo;
-    chError404: TCheckBox;
-    chError401: TCheckBox;
-    MemoError401: TMemo;
-    MemoError404: TMemo;
-    MemoStampMany: TMemo;
-    chStampMany: TCheckBox;
     procedure BtnAuthenticationClick(Sender: TObject);
     procedure BtnStampTokenClick(Sender: TObject);
     procedure BtnStampOutTokenClick(Sender: TObject);
@@ -190,13 +184,9 @@ procedure TForm1.BtnOpenFileClick(Sender: TObject);
 
 procedure TForm1.BtnRunTestsClick(Sender: TObject);
 var
-    result : string;
     resultGetToken : string;
     resultStampOutToken : string;
     resultStampWithToken : string;
-    resultError404 : string;
-    resultError401 : string;
-    resultStampMany : string;
      _url : PAnsiChar;
     _user : PAnsiChar;
     _password : PAnsiChar;
@@ -211,23 +201,18 @@ var
     _PxmlString : PAnsiChar;
     List: TStrings;
     LJsonObj: TJSONObject;
-    objData: TJSONObject;
-    _tokenJson: TJSONString;
-    _MessageJson : TJSONString;
-    _code : string;
+
 begin
     List := TStringList.Create;
     with TbControl do
-        _url := PAnsiChar(AnsiString('http://swservicestest-rc.azurewebsites.net/'));
+        _url := PAnsiChar(AnsiString('http://swsfervicestest-rc.azurewebsites.net/'));
         _user := PAnsiChar(AnsiString('demo'));
         _password := PAnsiChar(AnsiString('123456789'));
         resultGetToken := Authentication(_url, _user , _password);
         MemoGetToken.Lines.Text := resultGetToken;
 
         LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(resultGetToken), 0) as TJSONObject;
-        objData := LJsonObj.GetValue('data') as TJSONObject;
-        _tokenJson := objData.GetValue('token') as TJSONString;
-        _token := PAnsiChar(AnsiString(_tokenJson.Value));
+        _token := LJsonObj.GetValue('token');
         if (resultGetToken <> '') and (resultGetToken.Contains('token'))
           then
             begin
@@ -262,6 +247,14 @@ begin
           chStampOutToken.IsChecked := False;
 
         //StampWithToken
+        try
+
+          ExtractStrings(['f'], [], PChar(resultGetToken), List);
+          _token := PAnsiChar(AnsiString(List[2]));
+        finally
+          List.Free;
+        end;
+
         resultStampWithToken := StampByToken(_url, _token, _xmlB64);
         MemoStampWithToken.Lines.Text := resultStampWithToken;
         if (resultStampWithToken <> '') and (resultStampWithToken.Contains('tfd'))
@@ -271,76 +264,6 @@ begin
             end
         else
           chStampWithToken.IsChecked := False;
-
-       //Error 404
-        result := StampByToken(_url, _token, _xmlB64);
-        MemoError404.Lines.Text := result;
-
-        LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;
-        _MessageJson := LJsonObj.GetValue('message') as TJSONString;
-        if _MessageJson <> nil
-          then
-              begin
-                _code := _MessageJson.Value;
-
-                if (_code = '404')
-                  then
-                    begin
-                      chError404.IsChecked := True;
-                    end
-                else
-                  chError404.IsChecked := False;
-              end
-        else
-           MemoError404.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
-
-        //Error 401
-        result := StampByToken(_url, _token, _xmlB64);
-        MemoError401.Lines.Text := result;
-
-        LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;
-        _MessageJson := LJsonObj.GetValue('message') as TJSONString;
-        if _MessageJson <> nil
-          then
-              begin
-                _code := _MessageJson.Value;
-
-                if (_code = '401')
-                  then
-                    begin
-                      chError401.IsChecked := True;
-                    end
-                else
-                  chError401.IsChecked := False;
-              end
-        else
-           MemoError401.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
-
-        //Stamp Many
-        path :=  PAnsiChar(AnsiString('..//..//Resources/conceptos5.xml'));
-        xmlString := '';
-        AssignFile(myXMLFile, path);
-        Reset(myXMLFile);
-        while not Eof(myXMLFile) do
-           begin
-             ReadLn(myXMLFile, strTemp);
-             xmlString := Concat(xmlString, strTemp);
-           end;
-        CloseFile(myXMLFile);
-
-        _PxmlString := PAnsiChar(AnsiString(xmlString));
-
-         x := TNetEncoding.Base64.Encode(_PxmlString);
-         _xmlB64 := PAnsiChar(AnsiString(x));
-        resultStampMany := StampByToken(_url, _token, _xmlB64);
-        MemoStampMany.Lines.Text := resultStampMany;
-        if (resultStampMany <> '') and (resultStampMany.Contains('tfd'))
-          then
-            begin
-               chStampMany.IsChecked := True;
-            end
-        else
-          chStampMany.IsChecked := False;
 end;
 
 procedure TForm1.BtnClearClick(Sender: TObject);
