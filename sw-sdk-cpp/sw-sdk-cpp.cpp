@@ -1,6 +1,7 @@
 // sw-sdk-cpp.cpp : Defines the exported functions for the DLL application.
 //
 
+#include <objbase.h>
 #include "stdafx.h"
 #include "sw-sdk-cpp.h"
 #include <cpprest\http_client.h>
@@ -8,6 +9,7 @@ using namespace web::http;
 using namespace web::http::client;
 using namespace Concurrency::streams;
 
+short _code;
 SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password)
 {
 
@@ -27,12 +29,34 @@ SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password)
 	request.headers().add(L"Content-Length", L"0");
 	request.headers().add(L"user", user);
 	request.headers().add(L"password", password);
-	pplx::task<string> pro = client.request(request).then([](http_response response)
+	
+	string rr;
+	try
 	{
-		return response.extract_utf8string();
-	});
-	pro.wait();
-	string rr = pro.get();
+		pplx::task<string> pro = client.request(request).then([](http_response response)
+		{
+			_code = response.status_code();
+			return response.extract_utf8string();
+		});
+		pro.wait();
+		rr = pro.get();
+		switch (_code)
+		{
+			case status_codes::Unauthorized:
+				rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+				break;
+			case status_codes::NotFound:
+				rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+				break;
+			default:
+				break;
+		}
+		
+	}
+	catch (exception ex)
+	{
+		rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+	}
 	char *last = new char[rr.size() + 1];
 	last[rr.size()] = 0;
 	memcpy(last, rr.c_str(), rr.size());
@@ -270,17 +294,21 @@ SWSDKCPP_API char *StampV4B64(char *_url, char *_user, char *_password, char *_x
 	char* _token = SplitJson(5, result);
 	return StampRequestFormated(_url, _token, _xml, "v4", "b64");
 }
-bool ValidateXML(char *xml)
-{
-	string xmlNew = xml;
-	bool result = xmlNew.find("<?xml version=") != string::npos;
-	return result;
-}
+
+
 char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version, char *_formato) {
 	
 		string url = _url;
 		string xml = _xml;
 		utility::string_t result;
+
+		GUID guid;
+		CoCreateGuid(&guid);
+		OLECHAR* guidString;
+		StringFromCLSID(guid, &guidString);
+		wstring ws(guidString);
+		string strGuid(ws.begin(), ws.end());
+
 		string path = "/cfdi33/stamp/";
 		path += _version;
 		string format = _formato;
@@ -294,7 +322,7 @@ char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version,
 		http_response httpResponse;
 		http_request request(methods::POST);
 
-		std::string textBoundary = "------=_Part_11_11939969.1490230712432";
+		std::string textBoundary = "------=_Part_" + strGuid;
 		std::string textBody = "";
 		textBody += textBoundary + "\r\n";
 		textBody += "Content-Type: text/xml";
@@ -309,15 +337,36 @@ char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version,
 		textBody += textBoundary + "--";
 		textBody += "\r\n";
 		request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer) + utility::conversions::to_string_t(_token));
-		request.headers().set_content_type(L"multipart/form-data; boundary=\"----=_Part_11_11939969.1490230712432\"");
+		request.headers().set_content_type(utility::conversions::to_string_t("multipart/form-data; boundary=\"----=_Part_" + strGuid + "\""));
 		request.set_body(textBody);
 
-		pplx::task<string> pro = client.request(request).then([](http_response response)
+		string rr;
+		try
 		{
-			return response.extract_utf8string();
-		});
-		pro.wait();
-		string rr = pro.get();
+			pplx::task<string> pro = client.request(request).then([](http_response response)
+			{
+				_code = response.status_code();
+				return response.extract_utf8string();
+			});
+			pro.wait();
+			rr = pro.get();
+			switch (_code)
+			{
+			case status_codes::Unauthorized:
+				rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+				break;
+			case status_codes::NotFound:
+				rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+				break;
+			default:
+				break;
+			}
+
+		}
+		catch (exception ex)
+		{
+			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+		}
 		char *last = new char[rr.size() + 1];
 		last[rr.size()] = 0;
 		memcpy(last, rr.c_str(), rr.size());
@@ -325,15 +374,17 @@ char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version,
 	
 }
 char *StampRequest(char *_url, char *_token, char *_xml, char *_version) {
-	if (!ValidateXML(_xml))
-	{
-		return "XML mal Formado";
-	}
-	else
-	{
 		string url = _url;
 		string xml = _xml;
 		utility::string_t result;
+		
+		GUID guid;
+		CoCreateGuid(&guid);
+		OLECHAR* guidString;
+		StringFromCLSID(guid, &guidString);
+		wstring ws(guidString);
+		string strGuid(ws.begin(), ws.end());
+
 		string path = "/cfdi33/stamp/";
 		path += _version;
 		url = url + path;
@@ -345,7 +396,7 @@ char *StampRequest(char *_url, char *_token, char *_xml, char *_version) {
 		http_response httpResponse;
 		http_request request(methods::POST);
 
-		std::string textBoundary = "------=_Part_11_11939969.1490230712432";
+		std::string textBoundary = "------=_Part_"+ strGuid;
 		std::string textBody = "";
 		textBody += textBoundary + "\r\n";
 		textBody += "Content-Type: text/xml";
@@ -360,20 +411,40 @@ char *StampRequest(char *_url, char *_token, char *_xml, char *_version) {
 		textBody += textBoundary + "--";
 		textBody += "\r\n";
 		request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer)+utility::conversions::to_string_t(_token));
-		request.headers().set_content_type(L"multipart/form-data; boundary=\"----=_Part_11_11939969.1490230712432\"");
+		request.headers().set_content_type(utility::conversions::to_string_t("multipart/form-data; boundary=\"----=_Part_" + strGuid+"\""));
 		request.set_body(textBody);
 
-		pplx::task<string> pro = client.request(request).then([](http_response response)
+		string rr;
+		try
 		{
-			return response.extract_utf8string();
-		});
-		pro.wait();
-		string rr = pro.get();
+			pplx::task<string> pro = client.request(request).then([](http_response response)
+			{
+				_code = response.status_code();
+				return response.extract_utf8string();
+			});
+			pro.wait();
+			rr = pro.get();
+			switch (_code)
+			{
+			case status_codes::Unauthorized:
+				rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+				break;
+			case status_codes::NotFound:
+				rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+				break;
+			default:
+				break;
+			}
+
+		}
+		catch (exception ex)
+		{
+			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+		}
 		char *last = new char[rr.size() + 1];
 		last[rr.size()] = 0;
 		memcpy(last, rr.c_str(), rr.size());
 		return last;
-	}
 }
 
 char* SplitJson(int find, string str) {

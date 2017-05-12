@@ -52,8 +52,6 @@ type
     MemoError404: TMemo;
     MemoStampMany: TMemo;
     chStampMany: TCheckBox;
-    TxtUrlUnitTest: TEdit;
-    Text8: TText;
     procedure BtnAuthenticationClick(Sender: TObject);
     procedure BtnStampTokenClick(Sender: TObject);
     procedure BtnStampOutTokenClick(Sender: TObject);
@@ -217,7 +215,7 @@ var
 begin
     List := TStringList.Create;
     with TbControl do
-        _url := PAnsiChar(AnsiString(TxtUrlUnitTest.Text));
+        _url := PAnsiChar(AnsiString('http://services.test.sw.com.mx'));
         _user := PAnsiChar(AnsiString('demo'));
         _password := PAnsiChar(AnsiString('123456789'));
         resultGetToken := Authentication(_url, _user , _password);

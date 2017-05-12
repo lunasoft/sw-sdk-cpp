@@ -38,7 +38,8 @@ type
     MemoResultStamp: TMemo;
     Button1: TButton;
     MemoXML: TMemo;
-    TbItemUnitTest: TTabItem;
+    TabItem1: TTabItem;
+    EditButton1: TEditButton;
     BtnRunTests: TButton;
     chGetToken: TCheckBox;
     chStampOutToken: TCheckBox;
@@ -52,8 +53,6 @@ type
     MemoError404: TMemo;
     MemoStampMany: TMemo;
     chStampMany: TCheckBox;
-    TxtUrlUnitTest: TEdit;
-    Text8: TText;
     procedure BtnAuthenticationClick(Sender: TObject);
     procedure BtnStampTokenClick(Sender: TObject);
     procedure BtnStampOutTokenClick(Sender: TObject);
@@ -195,6 +194,8 @@ var
     resultGetToken : string;
     resultStampOutToken : string;
     resultStampWithToken : string;
+    resultError404 : string;
+    resultError401 : string;
     resultStampMany : string;
      _url : PAnsiChar;
     _user : PAnsiChar;
@@ -217,7 +218,7 @@ var
 begin
     List := TStringList.Create;
     with TbControl do
-        _url := PAnsiChar(AnsiString(TxtUrlUnitTest.Text));
+        _url := PAnsiChar(AnsiString('http://swservicestest-rc.azurewebsites.net/'));
         _user := PAnsiChar(AnsiString('demo'));
         _password := PAnsiChar(AnsiString('123456789'));
         resultGetToken := Authentication(_url, _user , _password);
@@ -272,7 +273,7 @@ begin
           chStampWithToken.IsChecked := False;
 
        //Error 404
-        result := StampByToken(PAnsiChar(AnsiString('http://services.test.sw.com.mx/fa')), _token, _xmlB64);
+        result := StampByToken(_url, _token, _xmlB64);
         MemoError404.Lines.Text := result;
 
         LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;
@@ -294,7 +295,7 @@ begin
            MemoError404.Lines.Text := 'ERROR EN LA COMUNICACION CON LA DLL ';
 
         //Error 401
-        result := StampByToken(_url, PAnsiChar(AnsiString('badtoken')), _xmlB64);
+        result := StampByToken(_url, _token, _xmlB64);
         MemoError401.Lines.Text := result;
 
         LJsonObj := TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes(result), 0) as TJSONObject;

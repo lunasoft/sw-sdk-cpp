@@ -5,6 +5,8 @@
 // SWSDKCPP_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
 #include "stdafx.h"
+#include <objbase.h>
+#include <string> 
 
 #ifdef SWSDKCPP_EXPORTS
 #define SWSDKCPP_API __declspec(dllexport)
@@ -12,7 +14,6 @@
 #define SWSDKCPP_API __declspec(dllimport)
 #endif
 
-#include <string> 
 using namespace std;
 SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password);
 SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR token);
@@ -53,5 +54,3 @@ SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml, char *_ver
 
 SWSDKCPP_API char *SplitJson(int find, string str);
 SWSDKCPP_API string dummy(string d);
-
-bool ValidateXML(char *xml);
