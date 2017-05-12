@@ -18,7 +18,7 @@ namespace swsdkcppUT
 	TEST_CLASS(StampTest)
 	{
 	private:
-		char *_url = "http://swservicestest-rc.azurewebsites.net";
+		char *_url = "http://services.test.sw.com.mx";
 		char *_user = "demo";
 		char *_password = "123456789";
 		char *_token = FindMyToken();
