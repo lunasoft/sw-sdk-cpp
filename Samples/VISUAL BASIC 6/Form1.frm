@@ -14,7 +14,7 @@ Begin VB.Form Form1
       Height          =   855
       Left            =   360
       TabIndex        =   22
-      Top             =   11520
+      Top             =   12240
       Width           =   13215
       _ExtentX        =   23310
       _ExtentY        =   1508
@@ -24,11 +24,19 @@ Begin VB.Form Form1
    End
    Begin VB.Frame Frame3 
       Caption         =   "Pruebas Unitarias"
-      Height          =   5295
+      Height          =   6015
       Left            =   240
       TabIndex        =   23
       Top             =   7200
       Width           =   13455
+      Begin VB.TextBox txtLogs 
+         Height          =   1815
+         Left            =   240
+         TabIndex        =   27
+         Text            =   "Logs: "
+         Top             =   3120
+         Width           =   12975
+      End
       Begin VB.TextBox txtXmlResult 
          Height          =   1335
          Left            =   240
@@ -52,14 +60,6 @@ Begin VB.Form Form1
          TabIndex        =   24
          Top             =   840
          Width           =   1815
-      End
-      Begin VB.Label lblLogs 
-         Caption         =   "Logs: "
-         Height          =   1095
-         Left            =   240
-         TabIndex        =   27
-         Top             =   3120
-         Width           =   13095
       End
    End
    Begin VB.Frame Frame2 
@@ -140,7 +140,7 @@ Begin VB.Form Form1
       End
    End
    Begin VB.Frame Frame1 
-      Caption         =   "Timbrado V2"
+      Caption         =   "Timbrado V4"
       Height          =   6855
       Left            =   7080
       TabIndex        =   0
@@ -281,7 +281,7 @@ Dim i As Long
 
 path = App.path + "\UnitTest\"
 xmlB64(3) = path + "comercioexterior.txt"
-xmlB64(0) = path + "conceptos2.txt"
+xmlB64(0) = path + "conceptos1024.txt"
 xmlB64(2) = path + "nomina.txt"
 xmlB64(1) = path + "pago10.txt"
 
@@ -303,20 +303,16 @@ Loop
 Close #1
 txtXmlRequest.Text = total
 txtXmlResult.Text = StampXml(total, 1)
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "1")
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+txtLogs.Text = txtLogs.Text + stringContain(txtXmlResult.Text, "error", xmlB64(i), "1")
 ProgressBar1.Value = y * (j + 1)
 txtXmlResult.Text = StampXml(total, 2)
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "2")
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+txtLogs.Text = txtLogs.Text + stringContain(txtXmlResult.Text, "error", xmlB64(i), "2")
 ProgressBar1.Value = y * (j + 2)
 txtXmlResult.Text = StampXml(total, 3)
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "3")
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+txtLogs.Text = txtLogs.Text + stringContain(txtXmlResult.Text, "error", xmlB64(i), "3")
 ProgressBar1.Value = y * (j + 3)
 txtXmlResult.Text = StampXml(total, 4)
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "error", xmlB64(i), "4")
-lblLogs.Caption = lblLogs.Caption + stringContain(txtXmlResult.Text, "Error", xmlB64(i), "1")
+txtLogs.Text = txtLogs.Text + stringContain(txtXmlResult.Text, "error", xmlB64(i), "4")
 ProgressBar1.Value = y * (j + 4)
 j = j + 4
 Next i
@@ -326,7 +322,8 @@ End Sub
 Public Function stringContain(ByVal result As String, ByVal contain As String, ByVal path As String, ByVal versionStamp As String) As String
 Dim FountIt
 FountIt = InStr(1, result, contain)
-If FountIt <> 0 Then
+FountIt2 = InStr(1, result, "Error")
+If FountIt <> 0 Or FountIt2 <> 0 Then
     MsgBox ("Error en la versión de timbrado " + versionStamp + result + " en el archivo" + path + " Detalles: " + result)
     stringContain = "Error en la versión de timbrado " + versionStamp + result + " en el archivo" + path + " Detalles: " + result
 End If
@@ -343,56 +340,7 @@ Public Function encodeBase64(ByRef arrData() As Byte) As String
    Set objNode = Nothing
    Set objXML = Nothing
 End Function
-Function bin2Byte(ByVal s As String) As Byte()
-    Dim bitsIn As Long
-    bitsIn = 8
- 
-    Dim i As Long
-    'pad with zeros
-    If Len(s) Mod bitsIn <> 0 Then
-        For i = 1 To bitsIn - Len(s) Mod bitsIn
-            s = "0" & s
-        Next i
-    End If
-     
-    i = Len(s)
-    Dim bytes() As Byte
-    Dim byteCount As Long
-    byteCount = -1
-    Dim sByte As String
-    Do While LenB(s) > 0
-        byteCount = byteCount + 1
-        ReDim Preserve bytes(byteCount)
-         
-        sByte = Mid$(s, Len(s) - bitsIn + 1)
-        'sByte = Mid$(s, 1, bitsIn)
-        For i = 0 To 7 Step 1
-            bytes(byteCount) = bytes(byteCount) + CLng(Mid$(sByte, 8 - i, 1)) * 2 ^ i
-        Next i
-        s = Mid$(s, 1, Len(s) - bitsIn)
-        's = Mid$(s, bitsIn + 1)
-    Loop
-    bin2Byte = bytes
-End Function
-Function byte2Bin(ByRef bytes() As Byte) As String
-    Dim i As Long, j As Long
-    Dim bin As String
-    For i = 0 To UBound(bytes)
-        bin = Space$(8)
-         
-        For j = 0 To 7
-            If bytes(i) And 2 ^ j Then
-                Mid(bin, 8 - j, 1) = "1"
-            Else
-                'Mid(bin, 8 - j, 1) = "0"
-            End If
-        Next j
-         
-        byte2Bin = bin & byte2Bin
-    Next i
-    byte2Bin = LTrim$(byte2Bin)
-    byte2Bin = Replace(byte2Bin, " ", "0", 1, -1, vbBinaryCompare)
-End Function
+
 
 
 Private Sub btnToken_Click()
@@ -447,10 +395,6 @@ StampXml = tfd
 End If
 
 End Function
-
-Private Sub Command1_Click()
-
-End Sub
 
 Private Sub Form_Initialize()
     InitCommonControls

@@ -69,10 +69,10 @@ SWSDKCPP_API int __stdcall AuthenticationVB(LPSTR url, LPSTR user, LPSTR pass, L
 		char * authen = Authentication(url, user, pass);
 		strcpy_s(token, strlen(authen)+1 , authen);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(token, strlen(str)+1, str);
+		strcpy_s(token, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -85,10 +85,10 @@ SWSDKCPP_API int __stdcall StampByTokenVB(LPSTR url, LPSTR token, LPSTR xml, LPS
 		char *tfdStamped = StampByTokenB64(url, token, xml);
 		strcpy_s(tfd, strlen(tfdStamped)+1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -101,10 +101,10 @@ SWSDKCPP_API int __stdcall StampByTokenVBV2(LPSTR url, LPSTR token, LPSTR xml, L
 		char *tfdStamped = StampByTokenV2B64(url, token, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -116,10 +116,10 @@ SWSDKCPP_API int __stdcall StampByTokenVBV3(LPSTR url, LPSTR token, LPSTR xml, L
 		char *tfdStamped = StampByTokenV3B64(url, token, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -132,10 +132,10 @@ SWSDKCPP_API int __stdcall StampByTokenVBV4(LPSTR url, LPSTR token, LPSTR xml, L
 		char *tfdStamped = StampByTokenV4B64(url, token, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -147,10 +147,10 @@ SWSDKCPP_API int __stdcall StampVB(LPSTR url, LPSTR user, LPSTR pass, LPSTR xml,
 		char *tfdStamped = StampB64(url, user, pass, xml);
 		strcpy_s(tfd, strlen(tfdStamped)+1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -163,10 +163,10 @@ SWSDKCPP_API int __stdcall StampVBV2(LPSTR url, LPSTR user, LPSTR pass, LPSTR xm
 		char *tfdStamped = StampV2B64(url, user, pass, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -178,10 +178,10 @@ SWSDKCPP_API int __stdcall StampVBV3(LPSTR url, LPSTR user, LPSTR pass, LPSTR xm
 		char *tfdStamped = StampV3B64(url, user, pass, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -194,10 +194,10 @@ SWSDKCPP_API int __stdcall StampVBV4(LPSTR url, LPSTR user, LPSTR pass, LPSTR xm
 		char *tfdStamped = StampV4B64(url, user, pass, xml);
 		strcpy_s(tfd, strlen(tfdStamped) + 1, tfdStamped);
 	}
-	catch (const char * str)
+	catch (exception ex)
 	{
 
-		strcpy_s(tfd, strlen(str) + 1, str);
+		strcpy_s(tfd, strlen("Error al procesar la solicitud en la librería de CPP") + 1, "Error al procesar la solicitud en la librería de CPP");
 		return -1;
 	}
 	return 0;
@@ -361,11 +361,10 @@ char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version,
 			default:
 				break;
 			}
-
 		}
 		catch (exception ex)
 		{
-			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+			rr = "{\"message\": \"413\", \"messageDetail\": \"Request Entity Too Large\", \"status\": \"error\"}";
 		}
 		char *last = new char[rr.size() + 1];
 		last[rr.size()] = 0;

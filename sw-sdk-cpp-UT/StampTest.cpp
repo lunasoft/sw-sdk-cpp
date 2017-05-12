@@ -18,15 +18,17 @@ namespace swsdkcppUT
 	TEST_CLASS(StampTest)
 	{
 	private:
-		char *_url = "http://services.test.sw.com.mx";
+		char *_url = "http://swservicestest-rc.azurewebsites.net";
 		char *_user = "demo";
 		char *_password = "123456789";
 		char *_token = FindMyToken();
-		char *_resultExpect = "";
+		char *_resultExpect401 = "401";
+		char *_resultExpect404 = "404";
+		char *_resultExpect500 = "500";
 		char* _xml = GetXml("XMLFile.xml");
 		char* _pago10 = GetXml("pago10.xml");
 		char* _comercioExterior = GetXml("ComercioExterior.xml");
-		char* _conceptos = GetXml("conceptos5.xml");
+		char* _conceptos = GetXml("conceptos1024.xml");
 		char* _nomina = GetXml("nomina.xml");
 
 		std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -37,332 +39,274 @@ namespace swsdkcppUT
 		
 		TEST_METHOD(UT_Stamp_V1)
 		{
-			_resultExpect = "success";
+			
 			string resultByToken = StampByToken(_url, _token, _pago10);
 			string result = Stamp(_url, _user, _password, _pago10);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_Stamp_Pagos)
 		{
 			char* _cfdi = GetBase64(_pago10);
-			_resultExpect = "success";
+			
 			string resultByToken = StampByTokenB64(_url, _token, _cfdi);
 			string result = StampB64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV2B64(_url, _token, _cfdi);
 			result = StampV2B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV3B64(_url, _token, _cfdi);
 			result = StampV3B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV4B64(_url, _token, _cfdi);
 			result = StampV4B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			_cfdi = _pago10;
 			resultByToken = StampByToken(_url, _token, _cfdi);
 			result = Stamp(_url, _user, _password, _cfdi);
-			 status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
+			 status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV2(_url, _token, _cfdi);
 			result = StampV2(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV3(_url, _token, _cfdi);
 			result = StampV3(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV4(_url, _token, _cfdi);
 			result = StampV4(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 		}
 		TEST_METHOD(UT_Stamp_Conceptos)
 		{
-			char* _cfdi = _conceptos;
-			_resultExpect = "success";
-	/*		string resultByToken = StampByTokenB64(_url, _token, _cfdi);
+			char* _cfdi = GetBase64(_conceptos);
+			string resultByToken = StampByTokenB64(_url, _token, _cfdi);
 			string result = StampB64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV2B64(_url, _token, _cfdi);
-			result = StampV2B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV3B64(_url, _token, _cfdi);
-			result = StampV3B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV4B64(_url, _token, _cfdi);
-			result = StampV4B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));*/
-/*
-			string resultByToken;
-			string result;
-			char* status;
-			char* statusByToken;
-
-			_cfdi = _conceptos;
-			resultByToken = StampByToken(_url, _token, _cfdi);
-			result = Stamp(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Logger::WriteMessage(status);
-			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV2(_url, _token, _cfdi);
-			result = StampV2(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV3(_url, _token, _cfdi);
-			result = StampV3(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
-
-			resultByToken = StampByTokenV4(_url, _token, _cfdi);
-			result = StampV4(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));*/
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 		}
 		TEST_METHOD(UT_Stamp_ComercioExterior)
 		{
 			char* _cfdi = GetBase64(_comercioExterior);
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenB64(_url, _token, _cfdi);
 			string result = StampB64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV2B64(_url, _token, _cfdi);
 			result = StampV2B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV3B64(_url, _token, _cfdi);
 			result = StampV3B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV4B64(_url, _token, _cfdi);
 			result = StampV4B64(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			_cfdi = _comercioExterior;
 			resultByToken = StampByToken(_url, _token, _cfdi);
 			result = Stamp(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV2(_url, _token, _cfdi);
 			result = StampV2(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV3(_url, _token, _cfdi);
 			result = StampV3(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 
 			resultByToken = StampByTokenV4(_url, _token, _cfdi);
 			result = StampV4(_url, _user, _password, _cfdi);
-			status = SplitJson(280, result);
-			statusByToken = SplitJson(280, resultByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			status = SplitJson(3, result);
+			statusByToken = SplitJson(3, resultByToken);
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_Stamp_V2)
 		{
 			char* _cfdi = _pago10;
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV2(_url, _token, _cfdi);
 			string result = StampV2(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_StampV3)
 		{
 			char* _cfdi = _pago10;
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV3(_url, _token, _cfdi);
 			string result = StampV3(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_Stamp_V4)
 		{
 			char* _cfdi = _pago10;
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV4(_url, _token, _cfdi);
 			string result = StampV4(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_StampV1B64)
 		{
 			char* _cfdi = GetBase64(_pago10);
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenB64(_url, _token, _cfdi);
 			string result = StampB64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_StampV2B64)
 		{
 			char* _cfdi = GetBase64(_pago10);
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV2B64(_url, _token, _cfdi);
 			string result = StampV2B64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_StampV3B64)
 		{
 			char* _cfdi = GetBase64(_pago10);
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV3B64(_url, _token, _cfdi);
 			string result = StampV3B64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_StampV4B64)
 		{
 			char* _cfdi = GetBase64(_pago10);
-			_resultExpect = "success";
+			_resultExpect401 = "success";
 			string resultByToken = StampByTokenV4B64(_url, _token, _cfdi);
 			string result = StampV4B64(_url, _user, _password, _cfdi);
-			char* status = SplitJson(280, result);
-			char* statusByToken = SplitJson(280, resultByToken);
+			char* status = SplitJson(3, result);
+			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0) && !(std::strcmp(status, _resultExpect404) == 0) && !(std::strcmp(status, _resultExpect500) == 0));
+			Assert::IsTrue(!(std::strcmp(statusByToken, _resultExpect401) == 0) && !(std::strcmp(statusByToken, _resultExpect404) == 0) && !(std::strcmp(statusByToken, _resultExpect500) == 0));
 		}
 		TEST_METHOD(UT_Stamp_Error401)
 		{
-			_resultExpect = "401";
+			_resultExpect401 = "401";
 			string result = Stamp(_url, _user, "", _pago10);
 			string resultByToken = StampByToken(_url, "ff", _pago10);
 			char* status = SplitJson(3, result);
 			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue((std::strcmp(status, _resultExpect401) == 0));
+			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect401) == 0));
 		}
 		TEST_METHOD(UT_Stamp_Error404)
 		{
-			_resultExpect = "404";
+			_resultExpect404 = "404";
 			string result = Stamp("http://badendpoint.com", _user, _password, _pago10);
 			string resultByToken = StampByToken("http://badendpoint.com", _token, _pago10);
 			char* status = SplitJson(3, result);
 			char* statusByToken = SplitJson(3, resultByToken);
 			Logger::WriteMessage(status);
 			Logger::WriteMessage(statusByToken);
-			Assert::IsTrue((std::strcmp(status, _resultExpect) == 0));
-			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect) == 0));
+			Assert::IsTrue((std::strcmp(status, _resultExpect404) == 0));
+			Assert::IsTrue((std::strcmp(statusByToken, _resultExpect404) == 0));
 		}
 		char* FindMyToken() {
 			string result = Authentication(_url, _user, _password);
