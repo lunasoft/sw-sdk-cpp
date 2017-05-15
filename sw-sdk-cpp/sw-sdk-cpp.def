@@ -4,11 +4,29 @@ DESCRIPTION 'A C++ dll that can be called from VB'
 EXPORTS
    Authentication
    AuthenticationVB
-   StampByTokenV2
-   StampByTokenVBV2
-   StampV2
-   StampVBV2
-   StampByToken
-   StampByTokenVB
    Stamp
+   StampV2
+   StampV3
+   StampV4
+   StampB64
+   StampV2B64
+   StampV3B64
+   StampV4B64
+   StampByToken
+   StampByTokenV2
+   StampByTokenV3
+   StampByTokenV4
+   StampByTokenB64
+   StampByTokenV2B64
+   StampByTokenV3B64
+   StampByTokenV4B64
+   StampByTokenVB
+   StampByTokenVBV2
+   StampByTokenVBV3
+   StampByTokenVBV4
    StampVB
+   StampVBV2
+   StampVBV3
+   StampVBV4
+   
+   
