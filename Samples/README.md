@@ -8,6 +8,6 @@ A continuación encontrara ejemplos de implementacion de diferentes de lenguajes
 Ejemplos disponibles para lenguaje
 ---------
 * [C++](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Samples/C++)
-* [Delphi](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Samples/DELPHI)
-* [Visual Basic 6](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Samples/VISUAL%20BASIC%206)
-* [FoxPro](https://github.com/lunasoft/sw-sdk-cpp/tree/feature/SDT3.0.2.4/Samples/VISUAL%20FOXPRO)
+* [Delphi](https://github.com/lunasoft/sw-sdk-visual-delphi)
+* [Visual Basic 6](https://github.com/lunasoft/sw-sdk-visual-basic-6)
+* [FoxPro](https://github.com/lunasoft/sw-sdk-visual-fox-pro)
