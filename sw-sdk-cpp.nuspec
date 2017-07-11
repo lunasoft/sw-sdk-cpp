@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SW-SDK-CPP</id>
+    <version>0.0.1.1</version>
+    <title>SW-SDK-CPP</title>
+    <authors>SW SmarterWeb</authors>
+    <owners>Equipo SmarterWeb</owners>
+    <licenseUrl>https://sw.com.mx/</licenseUrl>
+    <projectUrl>https://github.com/lunasoft/sw-sdk-cpp</projectUrl>
+    <iconUrl>http://sufacturacion.mx/cdn/sw_logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Descripción del paquete</description>
+    <releaseNotes>Autenticación y timbrado</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>CFDI CFDI33 native stamp timbres rest b64 cpp vb6</tags>
+    <dependencies>
+            <dependency id="cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn
+" version="2.9.1" />
+        </dependencies>
+  </metadata>
+
+     <files>
+        <file src="Release\sw-sdk-cpp.lib" target="lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\x86\Release\" />
+        <file src="Release\sw-sdk-cpp.pdb" target="lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\x86\Release\pdh" />
+        <file src="sw-sdk-cpp\*.h" target="build\native\content" />
+    </files>
+</package>
