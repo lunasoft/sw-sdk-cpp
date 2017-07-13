@@ -8,7 +8,6 @@
 using namespace web::http;
 using namespace web::http::client;
 using namespace Concurrency::streams;
-
 short _code;
 SWSDKCPP_API char *Authentication(char *_url, char *_user, char *_password)
 {
@@ -295,6 +294,166 @@ SWSDKCPP_API char *StampV4B64(char *_url, char *_user, char *_password, char *_x
 	return StampRequestFormated(_url, _token, _xml, "v4", "b64");
 }
 
+SWSDKCPP_API char *CancelByXml(char *_url, char *_user, char *_password, char *_xml)
+{
+	string result = Authentication(_url, _user, _password);
+	char* _token = SplitJson(5, result);
+	return CancelRequestByXml(_url, _token, _xml);
+}
+
+SWSDKCPP_API char *CancelByXmlToken(char *_url, char *_token, char *_xml)
+{
+	return CancelRequestByXml(_url, _token, _xml);
+}
+
+SWSDKCPP_API char *CancelByCSD(char *_url, char *_user, char* _password, char *_b64Cer, char *_b64Key, char *_csdPassword, char *_rfc, char *_uuid)
+{
+	string result = Authentication(_url, _user, _password);
+	char* _token = SplitJson(5, result);
+	return CancelRequestByCSD(_url, _token, _b64Cer, _b64Key, _csdPassword, _rfc, _uuid);
+}
+
+SWSDKCPP_API char *CancelByCSDToken(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_csdPassword, char *_rfc, char *_uuid)
+{
+	return CancelRequestByCSD(_url, _token, _b64Cer, _b64Key, _csdPassword, _rfc, _uuid);
+}
+
+char *CancelRequestByXml(char *_url, char *_token, char *_xml)
+{
+	string url = _url;
+	string xml = _xml;
+	utility::string_t result;
+	GUID guid;
+	CoCreateGuid(&guid);
+	OLECHAR* guidString;
+	StringFromCLSID(guid, &guidString);
+	wstring ws(guidString);
+	string strGuid(ws.begin(), ws.end());
+
+	string path = "/cfdi33/cancel/xml";
+	url = url + path;
+	utility::string_t base;
+	string bearer = "bearer ";
+	base = utility::conversions::to_string_t(url);
+	http_client client(base);
+	http_response httpResponse;
+	http_request request(methods::POST);
+
+	std::string textBoundary = "------=_Part_" + strGuid;
+	std::string textBody = "";
+	textBody += textBoundary + "\r\n";
+	textBody += "Content-Type: text/xml";
+	textBody += "\r\n";
+	textBody += "Content-Transfer-Encoding: binary";
+	textBody += "\r\n";
+	textBody += "Content-Disposition: form-data; name=\"xml\"; filename=\"file.xml\"";
+	textBody += "\r\n";
+	textBody += "\r\n";
+	textBody += xml;
+	textBody += "\r\n";
+	textBody += textBoundary + "--";
+	textBody += "\r\n";
+	request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer) + utility::conversions::to_string_t(_token));
+	request.headers().set_content_type(utility::conversions::to_string_t("multipart/form-data; boundary=\"----=_Part_" + strGuid + "\""));
+	request.set_body(textBody);
+	string rr;
+	try
+	{
+		pplx::task<string> pro = client.request(request).then([](http_response response)
+		{
+			_code = response.status_code();
+			return response.extract_utf8string();
+		});
+		pro.wait();
+		rr = pro.get();
+		switch (_code)
+		{
+		case status_codes::Unauthorized:
+			rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+			break;
+		case status_codes::NotFound:
+			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+			break;
+		default:
+			break;
+		}
+	}
+	catch (exception ex)
+	{
+		rr = "{\"message\": \"413\", \"messageDetail\": \"Request Entity Too Large\", \"status\": \"error\"}";
+	}
+	char *last = new char[rr.size() + 1];
+	last[rr.size()] = 0;
+	memcpy(last, rr.c_str(), rr.size());
+	return last;
+}
+
+char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_password, char *_rfc, char *_uuid)
+{
+	string url = _url;
+	string b64Cer = _b64Cer;
+	string b64Key = _b64Key;
+	string password = _password;
+	string rfc = _rfc;
+	string uuid = _uuid;
+
+	
+	utility::string_t result;
+	GUID guid;
+	CoCreateGuid(&guid);
+	OLECHAR* guidString;
+	StringFromCLSID(guid, &guidString);
+	wstring ws(guidString);
+	string strGuid(ws.begin(), ws.end());
+
+	string path = "/cfdi33/cancel/csd";
+	url = url + path;
+	utility::string_t base;
+	string bearer = "bearer ";
+	base = utility::conversions::to_string_t(url);
+	http_client client(base);
+	http_response httpResponse;
+	http_request request(methods::POST);
+	std::string body = "";
+	//std::string contentType = "Content-Type:application/json";
+	//body += contentType + "\r\n";
+	body += "\r\n";
+	body += "{\"uuid\":\""+uuid+"\", \"rfc\":\""+rfc+"\", \"b64Cer\":\""+b64Cer+"\", \"b64Key\":\""+b64Key+"\", \"password\":\""+password+"\"}";
+	body += "\r\n";
+	request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer) + utility::conversions::to_string_t(_token));
+	request.headers().set_content_type(utility::conversions::to_string_t("application/json"));
+	request.set_body(body);
+	string rr;
+	try
+	{
+		pplx::task<string> pro = client.request(request).then([](http_response response)
+		{
+			_code = response.status_code();
+			return response.extract_utf8string();
+		});
+		pro.wait();
+		rr = pro.get();
+		switch (_code)
+		{
+		case status_codes::Unauthorized:
+			rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+			break;
+		case status_codes::NotFound:
+			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+			break;
+		default:
+			break;
+		}
+	}
+	catch (exception ex)
+	{
+		rr = "{\"message\": \"413\", \"messageDetail\": \"Request Entity Too Large\", \"status\": \"error\"}";
+	}
+	char *last = new char[rr.size() + 1];
+	last[rr.size()] = 0;
+	memcpy(last, rr.c_str(), rr.size());
+	return last;
+}
 
 char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version, char *_formato) {
 	
