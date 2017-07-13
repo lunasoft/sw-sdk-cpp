@@ -50,7 +50,15 @@ SWSDKCPP_API int __stdcall StampVBV4(LPSTR url, LPSTR user, LPSTR pass, LPSTR xm
 
 SWSDKCPP_API char *StampRequestFormated(char *_url, char *_token, char *_xml, char *_version, char *_formato);
 SWSDKCPP_API char *StampRequest(char *_url, char *_token, char *_xml, char *_version);
-//SWSDKCPP_API char *StampRequestV2(char *_url, char *_token, char *_xml);
+SWSDKCPP_API char *CancelRequestByXml(char *_url, char *_token, char *_xml);
+
 
 SWSDKCPP_API char *SplitJson(int find, string str);
 SWSDKCPP_API string dummy(string d);
+
+SWSDKCPP_API char *CancelByXml(char *_url, char *_user, char *_password, char *_xml);
+SWSDKCPP_API char *CancelByXmlToken(char *_url, char *_token, char *_xml);
+
+SWSDKCPP_API char *CancelByCSD(char *_url, char *_user, char *_password, char *_b64Cer, char *_b64Key, char *_csdPassword, char *_rfc, char *_uuid);
+SWSDKCPP_API char *CancelByCSDToken(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_password, char *_rfc, char *_uuid);
+SWSDKCPP_API char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_password, char *_rfc, char *_uuid);
