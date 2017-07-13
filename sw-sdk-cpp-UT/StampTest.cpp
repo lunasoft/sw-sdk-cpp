@@ -18,7 +18,7 @@ namespace swsdkcppUT
 	TEST_CLASS(StampTest)
 	{
 	private:
-		char *_url = "http://localhost:5000";
+		char *_url = "http://services.test.sw.com.mx";
 		char *_user = "demo";
 		char *_password = "123456789";
 		char *_token = FindMyToken();
@@ -295,7 +295,7 @@ namespace swsdkcppUT
 			_resultExpect401 = "acuse";
 			string resultCancelationByXml = CancelByXml(_url, _user, _password, _cancelationXml);
 			char* status = SplitJson(3, resultCancelationByXml);
-			Assert::IsTrue(!(std::strcmp(status, _resultExpect401) == 0));
+			Assert::IsTrue(std::strcmp(status, _resultExpect401) == 0);
 		}
 		TEST_METHOD(UT_CancelByXmlToken)
 		{
