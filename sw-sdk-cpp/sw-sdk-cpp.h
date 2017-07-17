@@ -62,3 +62,6 @@ SWSDKCPP_API char *CancelByXmlToken(char *_url, char *_token, char *_xml);
 SWSDKCPP_API char *CancelByCSD(char *_url, char *_user, char *_password, char *_b64Cer, char *_b64Key, char *_csdPassword, char *_rfc, char *_uuid);
 SWSDKCPP_API char *CancelByCSDToken(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_password, char *_rfc, char *_uuid);
 SWSDKCPP_API char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key, char *_password, char *_rfc, char *_uuid);
+
+SWSDKCPP_API char *GetBalanceAccounByToken(char *_url, char *_token);
+SWSDKCPP_API char *GetBalanceAccount(char *_url, char *_user, char *_password);
