@@ -126,6 +126,73 @@ Es posible que si usted utiliza un xml con fecha anterior a 3 dias a la actual o
 ```
 
 ----------------
+Consulta de saldo
+----------------
+Para la consulta de saldo, existen 2 métodos en la librería los cuales son los siguientes.
+
+**GetBalanceAccount**
+
+Los datos que se ocupan para este método son:
+
+- url
+- usuario
+- password
+
+***Ejemplo de consulta de saldo***
+```c
+//Incluimos el header correspondiente a la libreria (sw-sdk-cpp.h)
+#include "stdafx.h"
+#include <iostream>
+#include "sw-sdk-cpp.h"
+int main()
+{
+   char *url = "http://services.test.sw.com.mx";
+   char *user="demo";
+   char *password="123456789";
+   string result_balance = GetBalanceAccount(url, user, password);
+   return 0;
+}
+```
+
+**GetBalanceAccounByToken**
+Los datos que se ocupan para este método son:
+
+- url
+- token
+
+***Ejemplo de consulta de saldo***
+```c
+//Incluimos el header correspondiente a la libreria (sw-sdk-cpp.h)
+#include "stdafx.h"
+#include <iostream>
+#include "sw-sdk-cpp.h"
+int main()
+{
+   char *url = "http://services.test.sw.com.mx";
+   char *token= "T2lYQ0t4L0RHVkR4dHZ5Nkk1VHNEakZ3Y0J4Nk9GODZuRyt4cE1wVm5tbXB3YVZxTHdOdHAwVXY2NTdJb1hkREtXTzE3dk9pMmdMdkFDR2xFWFVPUTQyWFhnTUxGYjdKdG8xQTZWVjFrUDNiOTVrRkhiOGk3RHladHdMaEM0cS8rcklzaUhJOGozWjN0K2h6R3gwQzF0...";
+   string result_balance = GetBalanceAccounByToken(url, token);
+   return 0;
+}
+```
+En los ejemplos anteriores la respuesta es un objeto tipo **JSON** y dentro de él se encuentran datos de la cuenta como los siguientes:
+
+```json
+{
+    "data": {
+        "idSaldoCliente": "126eac70-425d-4493-87af-93505bfca746",
+        "idClienteUsuario": "05f731af-4c94-4d6e-aa87-7b19a16ff891",
+        "saldoTimbres": 995032194,
+        "timbresUtilizados": 1890278,
+        "fechaExpiracion": "0001-01-01T00:00:00",
+        "unlimited": false,
+        "timbresAsignados": 0
+    },
+    "status": "success"
+}
+```
+
+
+----------------
 Cancelaci&oacute;n
 ---------
 **Datos de prueba para cancelación por XML**
@@ -221,7 +288,7 @@ int main()
    return 0;
 }
 ```
-En los ejemplos anteriores la respuesta es un objeto tipo **JSON** y dentro de el se encuentra el **Acuse** y el **UUID** a cancelar con su respectivo código de respuesta a la cancelación.
+En los ejemplos anteriores la respuesta es un objeto tipo **JSON** y dentro de el se encuentra él **Acuse** y el **UUID** a cancelar con su respectivo código de respuesta a la cancelación.
 
 ```json
 {
