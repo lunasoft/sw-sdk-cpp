@@ -320,12 +320,6 @@ SWSDKCPP_API char *CancelByCSDToken(char *_url, char *_token, char *_b64Cer, cha
 SWSDKCPP_API char *GetBalanceAccounByToken(char *_url, char *_token)
 {
 	string url = _url;
-	GUID guid;
-	CoCreateGuid(&guid);
-	OLECHAR* guidString;
-	StringFromCLSID(guid, &guidString);
-	wstring ws(guidString);
-	string strGuid(ws.begin(), ws.end());
 	string path = "/account/balance";
 	url = url + path;
 	utility::string_t base;
@@ -457,13 +451,6 @@ char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key,
 
 	
 	utility::string_t result;
-	GUID guid;
-	CoCreateGuid(&guid);
-	OLECHAR* guidString;
-	StringFromCLSID(guid, &guidString);
-	wstring ws(guidString);
-	string strGuid(ws.begin(), ws.end());
-
 	string path = "/cfdi33/cancel/csd";
 	url = url + path;
 	utility::string_t base;
