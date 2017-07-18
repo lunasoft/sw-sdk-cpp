@@ -317,6 +317,58 @@ SWSDKCPP_API char *CancelByCSDToken(char *_url, char *_token, char *_b64Cer, cha
 {
 	return CancelRequestByCSD(_url, _token, _b64Cer, _b64Key, _csdPassword, _rfc, _uuid);
 }
+SWSDKCPP_API char *GetBalanceAccounByToken(char *_url, char *_token)
+{
+	string url = _url;
+	string path = "/account/balance";
+	url = url + path;
+	utility::string_t base;
+	string bearer = "bearer ";
+	base = utility::conversions::to_string_t(url);
+	http_client client(base);
+	http_response httpResponse;
+	http_request request(methods::GET);
+	request.headers().add(L"Cache-Control", L"no-cache");
+	request.headers().add(L"Content-Length", L"0");
+	request.headers().add(L"Authorization", utility::conversions::to_string_t(bearer) + utility::conversions::to_string_t(_token));
+	string rr;
+	try
+	{
+		pplx::task<string> pro = client.request(request).then([](http_response response)
+		{
+			_code = response.status_code();
+			return response.extract_utf8string();
+		});
+		pro.wait();
+		rr = pro.get();
+		switch (_code)
+		{
+		case status_codes::Unauthorized:
+			rr = "{\"message\": \"401\", \"messageDetail\": \"Unauthorized\", \"status\": \"error\"}";
+			break;
+		case status_codes::NotFound:
+			rr = "{\"message\": \"404\", \"messageDetail\": \"Not Found\", \"status\": \"error\"}";
+			break;
+		default:
+			break;
+		}
+	}
+	catch (exception ex)
+	{
+		rr = "{\"message\": \"413\", \"messageDetail\": \"Request Entity Too Large\", \"status\": \"error\"}";
+	}
+	char *last = new char[rr.size() + 1];
+	last[rr.size()] = 0;
+	memcpy(last, rr.c_str(), rr.size());
+	return last;
+
+}
+SWSDKCPP_API char *GetBalanceAccount(char *_url, char *_user, char *_password)
+{
+	string result = Authentication(_url, _user, _password);
+	char* _token = SplitJson(5, result);
+	return GetBalanceAccounByToken(_url, _token);
+}
 
 char *CancelRequestByXml(char *_url, char *_token, char *_xml)
 {
@@ -399,13 +451,6 @@ char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key,
 
 	
 	utility::string_t result;
-	GUID guid;
-	CoCreateGuid(&guid);
-	OLECHAR* guidString;
-	StringFromCLSID(guid, &guidString);
-	wstring ws(guidString);
-	string strGuid(ws.begin(), ws.end());
-
 	string path = "/cfdi33/cancel/csd";
 	url = url + path;
 	utility::string_t base;
@@ -415,8 +460,6 @@ char *CancelRequestByCSD(char *_url, char *_token, char *_b64Cer, char *_b64Key,
 	http_response httpResponse;
 	http_request request(methods::POST);
 	std::string body = "";
-	//std::string contentType = "Content-Type:application/json";
-	//body += contentType + "\r\n";
 	body += "\r\n";
 	body += "{\"uuid\":\""+uuid+"\", \"rfc\":\""+rfc+"\", \"b64Cer\":\""+b64Cer+"\", \"b64Key\":\""+b64Key+"\", \"password\":\""+password+"\"}";
 	body += "\r\n";
